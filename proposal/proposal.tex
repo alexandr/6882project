@@ -26,6 +26,49 @@
 \begin{document}
 \maketitle
 
+\section{Background and Motivation}
+Because of the recent excitement regarding DeepMind's AlphaGo AI, we wanted to
+explore reinforcement learning, in a Bayesian framework. We will use the Strens's
+ICML-2000 paper, \textit{A Bayesian Framework for Reinforcement Learning} as a
+guideline as to how to reason about the toy reinforcement learning problem of
+navigating an unknown maze with a Bayesian formulation.
+
+In the reinforcement learning problem, the agent must explore the surroundings
+and determine the behavior that maximizes the expected return. In this case, our
+agent must discover the structure of the maze while minimizing the time required
+to find the end. A Markov decision process (MDP) model is traditionally used to
+model the interactive system over $S$ the set of states, $A$ the set of actions,
+$R: S \times A \rightarrow \mathbb{R}$ the reward function, and $T$ the transition
+probabilities defined as
+\begin{equation}
+T(s, a, s') = P(X_{t+1} = s' | X_t = s, Y_t = a).
+\end{equation}
+We also define a quality function $Q$ as
+
+\begin{equation}
+Q(s, a) = \mathbb{E}[R(s, a)] + \gamma \sum_{s'} \textrm{max}_{a'} Q(s', a')
+\end{equation}
+
+where $\gamma$ is the time-discount factor \citep[p.3]{strens}.
+
+Our optimal behavior is then the policy that maximizes the quality function. Many
+approaches for finding the best policy uses dynamic programming in order to estimate
+the transition probabilities. The maximum likelihood estimate for $T(s, a, s')$ is
+the proportion of times the action $a$ in state $s$ leads to $s'$, and the estimate of
+$\mathbb{E}[R(s, a)]$ is the average reward received whenever $(s, a)$ is taken. This
+requires the keeping track of all pairs of states and actions - storage of large
+sparse data. In \cite{strens}, the author places a prior over and estimates the
+posterior transition probabilities. At each time step, the author uses the current
+model over the system to estimate the quality function $Q^*$ and choose the best
+action. 
+
+\section{Plans and Consideration}
+
+For the two of us, our plan to implement this model will be the following:
+
+
+The major risks of this project come from
+
 \bibliographystyle{apalike}
 \bibliography{proposal}
 
