@@ -62,6 +62,8 @@ posterior transition probabilities. At each time step, the author uses the curre
 model over the system to estimate the quality function $Q^*$ and choose the best
 action. 
 
+We will also use Engel's ICML-2005 paper, \textit{Reinforcement learning with Gaussian processes} as a guideline for implementing Bayesian policy evaluation using Gaussian processes. The algorithm presents a Bayesian solution to policy evaluation named Gaussian Process Temporal Difference (GPTD). It then extends the algorithm to SARSA-based extension of GPTD termed GPSARSA which is a fully functioning agent that can select actions and gradually improve its policies.
+
 \section{Plans and Consideration}
 
 For the two of us, our plan to implement this model will be the following:
@@ -70,12 +72,15 @@ For the two of us, our plan to implement this model will be the following:
 \item Implement Bayesian Markov decision processes (MDPs) as described in the Stren paper. This includes implementing the representation of the posterior, generating the prior, and posterior updates.
 \item Implement hypothesis generation using the posteriors over the MDP parameters as described in the Stren paper.
 \item Replicate paper results in three applications discussed in the paper ("Chain", "Loop", and "Maze" toy problems).
-\item Apply implementation to our maze problem and compare to non-Bayesian methods (NEED SOMETHING TO COMPARE TO)
+\item Apply implementation to our maze problem and compare to non-Bayesian methods (in particular, traditional DPs).
+\item Implement on-line Monte Carlo GPTD algorithm as described in Engel's paper.
+\item Implement full GP State-Action-Reward-State-Action algorithm (GPSARSA) described in Engel's paper, an extension of the GPTD which implements a fully learning agent.
+\item Apply implementation to our maze problem and compare to our Bayesian DP method and non-Bayesian methods from before.
 
 \end{itemize}
 
 
-The major risks of this project come from
+The major risks of this project come from successfully implementing the GP algorithms described in Engel's paper. The algorithm is relatively complicated and involves learning of many parameters, and therefore is very prone to bugs. In general, it seems difficult to test the performance of our algorithms modularly without testing the performance of our agent as a whole. Since our reinforcement learning methods involve multiple techniques working together, we expect challenges in clean, efficient implementations that we can properly test on our toy problems.
 
 \bibliographystyle{apalike}
 \bibliography{proposal}
