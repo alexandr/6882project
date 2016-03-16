@@ -1,9 +1,8 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  15 MAR 2016 22:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  15 MAR 2016 22:28
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**proposal.tex
+**proposal.
 (./proposal.tex
 LaTeX2e <2015/01/01>
 Babel <3.9l> and hyphenation patterns for 79 languages loaded.
@@ -298,13 +297,13 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 osal.bbl)
 [2] (./proposal.aux) ) 
 Here is how much of TeX's memory you used:
- 3424 strings out of 493089
- 46006 string characters out of 6134842
+ 3425 strings out of 493089
+ 46007 string characters out of 6134842
  117934 words of memory out of 5000000
  6851 multiletter control sequences out of 15000+600000
  11083 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,6n,32p,728b,193s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,6n,32p,725b,193s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmex10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsf
@@ -319,7 +318,7 @@ mr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pf
 b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on proposal.pdf (2 pages, 132448 bytes).
+Output written on proposal.pdf (2 pages, 132428 bytes).
 PDF statistics:
  63 PDF objects out of 1000 (max. 8388607)
  45 compressed objects within 1 object stream
