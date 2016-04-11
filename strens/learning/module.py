@@ -7,7 +7,7 @@ from pybrain.rl.learners.valuebased.interface import ActionValueInterface
 from priors import DirichletPrior, SparsePrior
 
 
-class ActionModule(Module, ActionValueInterfac):
+class ActionModule(Module, ActionValueInterface):
     '''The module that keeps track of the Q(s, a) estimates
     as well as the posterior distribution on T(s, a, s') and
     the ML estimates of E[R(s, a)]'''
@@ -26,6 +26,26 @@ class ActionModule(Module, ActionValueInterfac):
         self.prior = DirichletPrior(self.alphas)
         self.transitionProbs = np.zeros((numStates, numActions, numStates))
         self.initTransProbs()
+        # The quantities we need to maintain in accordance with the Strens paper
+
+        self.visitCount = np.zeros((numStates, numActions))
+        self.sumRewards = np.zeros((numStates, numActions))
+        self.sumSqRewards = np.zeros((numStates, numActions))
+        self.successorStates = [[set() for _ in xrange(numActions)] for _ in xrange(numStates)]
+        self.transitionCount = np.zeros((numStates, numActions, numStates))
+
+        # ML estimates, updated using prioritized sweeping
+        self.expectedReward = np.zeros((numStates, numActions))
+        self.discountedReturn = np.zeros((numStates, numActions))
+
+    def update(state, action, newstate, reward):
+        self.visitCount[state][action] += 1
+        self.sumRewards[state][action] += reward
+        self.sumSqRewards[state][action] += reward * reward
+        self.successorStates[state][action].add(newstate)
+        self.transitionCount[state][action][newstate] += 1
+
+        # need to update ML estimates using prioritized sweeping
 
     @property
     def numActions(self):
