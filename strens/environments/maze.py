@@ -24,6 +24,8 @@ class FlagMaze(Environment):
     E = (0, -1)
 
     directions = [N, W, S, E]
+    
+    # number of possible actions
     indim = len(directions)
 
     def __init__(self, maze, flagPos, goal):
@@ -32,6 +34,8 @@ class FlagMaze(Environment):
         r, c = maze.shape
         self.numRows = r
         self.numColumns = c
+        
+        # number of possible sensor values
         self.outdim = r * c
 
         self.goal = goal
@@ -86,7 +90,9 @@ class FlagMazeTask(Task):
         Task.performAction(self, int(action[0]))
 
     def getObservation(self):
-        return self.env.getSensors()
+        x, y = self.env.curPos
+        return [x * self.env.numColumns + y,]
+#        return self.env.getSensors()
     
 
 if __name__ == "__main__":
