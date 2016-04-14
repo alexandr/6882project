@@ -44,6 +44,7 @@ class FlagMaze(Environment):
 
     def reset(self):
         self.curPos = self.start
+        self.flagsCollected = 0
         for flag in self.flags:
             self.maze[flag] = 2
 
