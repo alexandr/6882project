@@ -41,18 +41,26 @@ if __name__=="__main__":
 
     # env = Loop()
     # task = LoopTask(env)
-    struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
-                       [0, 1, 1, 0, 1, 1, 1, 1, 0],
-                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
-                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
-                       [0, 1, 1, 0, 1, 0, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    struct = np.array([[0, 0, 0, 0],
+                       [0, 1, 1, 0],
+                       [0, 1, 1, 0],
+                       [0, 1, 1, 0],
+                       [0, 0, 0, 0]])
 
-    flagPos = [(5,1), (7, 3), (3, 5)]
-    goal = (1, 7)
+    flagPos = [(3,1)]
+    goal = (2, 2)
+    # struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #                    [0, 1, 1, 0, 1, 1, 1, 1, 0],
+    #                    [0, 1, 1, 0, 1, 1, 0, 1, 0],
+    #                    [0, 1, 1, 0, 1, 1, 0, 1, 0],
+    #                    [0, 1, 1, 0, 1, 0, 0, 1, 0],
+    #                    [0, 1, 1, 1, 1, 1, 0, 1, 0],
+    #                    [0, 0, 0, 0, 0, 0, 0, 1, 0],
+    #                    [0, 1, 1, 1, 1, 1, 1, 1, 0],
+    #                    [0, 0, 0, 0, 0, 0, 0, 0, 0]])
+
+    # flagPos = [(5,1), (7, 3), (3, 5)]
+    # goal = (1, 7)
 
     env = FlagMaze(struct, flagPos, goal)
     task = FlagMazeTask(env)
@@ -62,6 +70,7 @@ if __name__=="__main__":
 
     for _ in xrange(1000):
         print exp.doInteractions(1)
-        print "ACTION:",agent.lastaction, "STATE:",agent.laststate, "REWARD:",agent.lastreward
+        if agent.lastreward > 0:
+            print "ACTION:",agent.lastaction, "STATE:",agent.laststate, "REWARD:",agent.lastreward
         print env.curPos
 
