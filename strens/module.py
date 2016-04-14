@@ -27,10 +27,11 @@ class ActionModule(ActionValueInterface):
         self.numColumns = numActions
 
         # Q table
-        self.actionTable = np.zeros((numStates, numActions))
+        # HACK: setting these all to 1's to allow for exploration
+        self.actionTable = np.ones((numStates, numActions))
 
         # I have no idea how to set this
-        self.gamma = 1.
+        self.gamma = 0.99
 
         # TODO: set actual alphas
         if alphas is None:
@@ -49,6 +50,7 @@ class ActionModule(ActionValueInterface):
         self.transitionCount = np.zeros((numStates, numActions, numStates))
 
         # ones for our prior lol
+        # HACK: try different priors
         self.transitionDirichletParams = np.ones((numStates, numActions, numStates))
 
         # ML estimates, updated using prioritized sweeping
@@ -68,12 +70,18 @@ class ActionModule(ActionValueInterface):
         # TODO: update ML estimates using prioritized sweeping
         
         # update Qs according to formula
-        transitionProbs = np.random.dirichlet(self.transitionDirichletParams[state, action, :])
+        normalizer = sum(self.transitionDirichletParams[state, action, :])
         def sumArg(otherState):
-            return transitionProbs[otherState] * self.actionTable[otherState][self.getMaxAction(otherState)]
+            return float(self.transitionDirichletParams[state, action, otherState]) / normalizer * self.actionTable[otherState][self.getMaxAction(otherState)]
 
         expectedStateAction = float(self.sumRewards[state][action]) / self.visitCount[state][action]
         self.actionTable[state][action] = expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numStates))
+        # print "STATE:", state, "ACTION:", action, "UPDATED EXP REWARD:", self.actionTable[state][action]
+        # print "TRANSITION PROBABILITIES FROM:", state
+        # # for a in xrange(self.numActions):
+        # #     for s in xrange(self.numStates):
+        # #         print "newstate", s, "action", a, "probability:", float(self.transitionDirichletParams[state, a, s]) / normalizer
+        # print self.transitionDirichletParams[state, :, :]
 
 
     @property
