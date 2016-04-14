@@ -71,20 +71,31 @@ class ActionModule(ActionValueInterface):
         
         # update Qs according to formula
         self.updateAllQValues()
+
+        # print "TRANSITION PROBABILITIES FROM:", state
+        # print self.transitionDirichletParams[state, :, :]
+
+
+        # print "Q TABLE:"
+        # print self.actionTable[state]
         
 
     def updateAllQValues(self):
+        newQvalues = np.zeros((self.numStates, self.numActions))
+
         for s in xrange(self.numStates):
             for a in xrange(self.numActions):
-                self.updateQValue(s, a)
+                newQvalues[s][a] = self.getUpdatedQValue(s, a)
 
-    def updateQValue(self, state, action):
+        self.actionTable[:] = newQvalues
+
+    def getUpdatedQValue(self, state, action):
         normalizer = sum(self.transitionDirichletParams[state, action, :])
         def sumArg(otherState):
             return float(self.transitionDirichletParams[state, action, otherState]) / normalizer * self.actionTable[otherState][self.getMaxAction(otherState)]
 
         expectedStateAction = float(self.sumRewards[state][action]) / self.visitCount[state][action] if self.visitCount[state][action] > 0 else 0.
-        self.actionTable[state][action] = expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numStates))
+        return expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numStates))
         # print "STATE:", state, "ACTION:", action, "UPDATED EXP REWARD:", self.actionTable[state][action]
         # print "TRANSITION PROBABILITIES FROM:", state
         # for a in xrange(self.numActions):
