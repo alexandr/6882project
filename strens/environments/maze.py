@@ -18,9 +18,9 @@ class FlagMaze(Environment):
     flagsCollected = 0
 
     # directions
-    N = (1, 0)
+    N = (-1, 0)
     W = (0, 1)
-    S = (-1, 0)
+    S = (1, 0)
     E = (0, -1)
 
     directions = [N, W, S, E]
@@ -44,6 +44,7 @@ class FlagMaze(Environment):
 
     def reset(self):
         self.curPos = self.start
+        self.flagsCollected = 0
         for flag in self.flags:
             self.maze[flag] = 2
 
