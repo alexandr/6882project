@@ -83,8 +83,9 @@ class FlagMazeTask(Task):
 
     def getReward(self):
         if self.env.curPos == self.env.goal:
+            reward = self.env.flagsCollected
             self.env.reset()
-            return self.env.flagsCollected
+            return reward
         return 0
 
     def performAction(self, action):
