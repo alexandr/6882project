@@ -63,4 +63,5 @@ if __name__=="__main__":
     for _ in xrange(1000):
         print exp.doInteractions(1)
         print "ACTION:",agent.lastaction, "STATE:",agent.laststate, "REWARD:",agent.lastreward
+        print env.curPos
 
