@@ -70,19 +70,27 @@ class ActionModule(ActionValueInterface):
         # TODO: update ML estimates using prioritized sweeping
         
         # update Qs according to formula
+        self.updateAllQValues()
+        
+
+    def updateAllQValues(self):
+        for s in xrange(self.numStates):
+            for a in xrange(self.numActions):
+                self.updateQValue(s, a)
+
+    def updateQValue(self, state, action):
         normalizer = sum(self.transitionDirichletParams[state, action, :])
         def sumArg(otherState):
             return float(self.transitionDirichletParams[state, action, otherState]) / normalizer * self.actionTable[otherState][self.getMaxAction(otherState)]
 
-        expectedStateAction = float(self.sumRewards[state][action]) / self.visitCount[state][action]
+        expectedStateAction = float(self.sumRewards[state][action]) / self.visitCount[state][action] if self.visitCount[state][action] > 0 else 0.
         self.actionTable[state][action] = expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numStates))
         # print "STATE:", state, "ACTION:", action, "UPDATED EXP REWARD:", self.actionTable[state][action]
         # print "TRANSITION PROBABILITIES FROM:", state
-        # # for a in xrange(self.numActions):
-        # #     for s in xrange(self.numStates):
-        # #         print "newstate", s, "action", a, "probability:", float(self.transitionDirichletParams[state, a, s]) / normalizer
+        # for a in xrange(self.numActions):
+        #     for s in xrange(self.numStates):
+        #         print "newstate", s, "action", a, "probability:", float(self.transitionDirichletParams[state, a, s]) / normalizer
         # print self.transitionDirichletParams[state, :, :]
-
 
     @property
     def numActions(self):

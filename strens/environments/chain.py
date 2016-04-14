@@ -23,7 +23,7 @@ class Chain(Environment):
         # action can be 0 or 1
         # 0 -> b, 1 -> a (with prob = 1 - probSlip)
         if random() < self.probSlip:
-            print "slipped!"
+            print "slipped!====================================================================="
             action = not action
         if action == 0:
             self.state = 0
