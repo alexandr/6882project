@@ -13,6 +13,7 @@ class FlagMaze(Environment):
     Maximize the flags collected.'''
 
     maze = None
+    states = None
     goal = None
     start = (1, 1)
     flagsCollected = 0
@@ -34,6 +35,12 @@ class FlagMaze(Environment):
         r, c = maze.shape
         self.numRows = r
         self.numColumns = c
+
+        self.states = np.copy(maze)
+        self.states[maze == 0] = -1
+        self.states[maze > 0] = np.arange(len(maze[maze > 0]))
+        print self.states
+        print self.maze
         
         # number of possible sensor values
         self.outdim = r * c
@@ -92,9 +99,9 @@ class FlagMazeTask(Task):
         Task.performAction(self, int(action[0]))
 
     def getObservation(self):
-        x, y = self.env.curPos
-        return [x * self.env.numColumns + y,]
-#        return self.env.getSensors()
+        return [self.env.states[self.env.curPos],]
+#        x, y = self.env.curPos
+#        return [x * self.env.numColumns + y,]
     
 
 if __name__ == "__main__":
