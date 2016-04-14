@@ -31,7 +31,7 @@ class ActionModule(ActionValueInterface):
         self.actionTable = np.ones((numStates, numActions))
 
         # I have no idea how to set this
-        self.gamma = 0.99
+        self.gamma = 0.5
 
         # TODO: set actual alphas
         if alphas is None:
@@ -76,7 +76,7 @@ class ActionModule(ActionValueInterface):
         # print self.transitionDirichletParams[state, :, :]
 
 
-        # print "Q TABLE:"
+        # print "Q TABLE from:", state
         # print self.actionTable[state]
         
 
@@ -94,7 +94,7 @@ class ActionModule(ActionValueInterface):
         def sumArg(otherState):
             return float(self.transitionDirichletParams[state, action, otherState]) / normalizer * self.actionTable[otherState][self.getMaxAction(otherState)]
 
-        expectedStateAction = float(self.sumRewards[state][action]) / self.visitCount[state][action] if self.visitCount[state][action] > 0 else 0.
+        expectedStateAction = float(self.sumRewards[state][action]) / self.visitCount[state][action] if self.visitCount[state][action] > 0 else 1.
         return expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numStates))
         # print "STATE:", state, "ACTION:", action, "UPDATED EXP REWARD:", self.actionTable[state][action]
         # print "TRANSITION PROBABILITIES FROM:", state
