@@ -1,4 +1,4 @@
-
+import numpy as np
 
 class Experiment(object):
     """ An experiment matches up a task with an agent and handles their interactions.
@@ -35,13 +35,27 @@ if __name__=="__main__":
 
     from environments.loop import Loop, LoopTask
     from environments.chain import Chain, ChainTask
+    from environments.maze import FlagMaze, FlagMazeTask
     from module import ActionModule
     from agent import BayesAgent
 
     # env = Loop()
     # task = LoopTask(env)
-    env = Chain()
-    task = ChainTask(env)
+    struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                       [0, 1, 1, 0, 1, 1, 1, 1, 0],
+                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
+                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
+                       [0, 1, 1, 0, 1, 0, 0, 1, 0],
+                       [0, 1, 1, 1, 1, 1, 0, 1, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 1, 0],
+                       [0, 1, 1, 1, 1, 1, 1, 1, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 0, 0]])
+
+    flagPos = [(5,1), (7, 3), (3, 5)]
+    goal = (1, 7)
+
+    env = FlagMaze(struct, flagPos, goal)
+    task = FlagMazeTask(env)
     module = ActionModule(env.outdim, env.indim)
     agent = BayesAgent(module)
     exp = Experiment(task, agent)
