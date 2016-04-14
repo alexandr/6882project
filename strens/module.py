@@ -48,6 +48,9 @@ class ActionModule(ActionValueInterface):
         self.successorStates = [[set() for _ in xrange(numActions)] for _ in xrange(numStates)]
         self.transitionCount = np.zeros((numStates, numActions, numStates))
 
+        # ones for our prior lol
+        self.transitionDirichletParams = np.ones((numStates, numActions, numStates))
+
         # ML estimates, updated using prioritized sweeping
         self.expectedReward = np.zeros((numStates, numActions))
         self.discountedReturn = np.zeros((numStates, numActions))
@@ -59,17 +62,18 @@ class ActionModule(ActionValueInterface):
         self.successorStates[state][action].add(newstate)
         self.transitionCount[state][action][newstate] += 1
 
-        # TODO: update transition probabilities
+        # update transition probability params
+        self.transitionDirichletParams[state][action][newstate] += 1
 
         # TODO: update ML estimates using prioritized sweeping
-
         
-        # TODO: update Qs according to formula
+        # update Qs according to formula
+        transitionProbs = np.random.dirichlet(self.transitionDirichletParams[state, action, :])
         def sumArg(otherState):
-            return self.transitionProbs[state][action][otherState] * self.actionTable[otherState][self.getMaxAction(otherState)]
+            return transitionProbs[otherState] * self.actionTable[otherState][self.getMaxAction(otherState)]
 
-        expectedStateAction = (float)self.sumRewards[state][action] / self.visitCount
-        self.actionTable[state][action] = expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numRows))
+        expectedStateAction = float(self.sumRewards[state][action]) / self.visitCount[state][action]
+        self.actionTable[state][action] = expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numStates))
 
 
     @property
