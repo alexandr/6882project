@@ -25,7 +25,12 @@ class ActionModule(ActionValueInterface):
     def __init__(self, numStates, numActions, alphas=None):
         self.numRows = numStates
         self.numColumns = numActions
+
+        # Q table
         self.actionTable = np.zeros((numStates, numActions))
+
+        # I have no idea how to set this
+        self.gamma = 1.
 
         # TODO: set actual alphas
         if alphas is None:
@@ -54,8 +59,18 @@ class ActionModule(ActionValueInterface):
         self.successorStates[state][action].add(newstate)
         self.transitionCount[state][action][newstate] += 1
 
+        # TODO: update transition probabilities
+
         # TODO: update ML estimates using prioritized sweeping
+
+        
         # TODO: update Qs according to formula
+        def sumArg(otherState):
+            return self.transitionProbs[state][action][otherState] * self.actionTable[otherState][self.getMaxAction(otherState)]
+
+        expectedStateAction = (float)self.sumRewards[state][action] / self.visitCount
+        self.actionTable[state][action] = expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numRows))
+
 
     @property
     def numActions(self):
