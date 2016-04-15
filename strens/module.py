@@ -22,7 +22,7 @@ class ActionModule(ActionValueInterface):
     as well as the posterior distribution on T(s, a, s') and
     the ML estimates of E[R(s, a)]'''
 
-    def __init__(self, numStates, numActions, alphas=None, gamma=0.99):
+    def __init__(self, numStates, numActions, alphas=None, gamma=0.5):
         self.numRows = numStates
         self.numColumns = numActions
 
@@ -46,7 +46,7 @@ class ActionModule(ActionValueInterface):
         self.visitCount = np.zeros((numStates, numActions))
         self.sumRewards = np.zeros((numStates, numActions))
 
-        self.rewardGammaAlpha = 100.
+        self.rewardGammaAlpha = 10.
         self.rewardGammaBeta = 1.
 
         self.muNot = 0.
@@ -99,8 +99,9 @@ class ActionModule(ActionValueInterface):
 
     def getUpdatedQValue(self, state, action):
         transitionProb = np.random.dirichlet(self.transitionDirichletParams[state, action, :])
+        normalizer = sum(float(transitionProb[s]) for s in self.successorStates[state][action])
         def sumArg(otherState):
-            return transitionProb[otherState] * self.actionTable[otherState][self.getMaxAction(otherState)]
+            return transitionProb[otherState] / normalizer * self.actionTable[otherState][self.getMaxAction(otherState)]
 
 
         # calculate appropriate alpha and beta for the Gamma
@@ -131,8 +132,9 @@ class ActionModule(ActionValueInterface):
         expectedStateAction = np.random.normal(mu, 1./np.sqrt(tau))
         # print "XMEAN:", meanX
         # print "MU:", mu, "SIGMA:", 1/np.sqrt(tau)
+        # expectedStateAction = meanX
 
-        return expectedStateAction + self.gamma * sum(sumArg(s) for s in xrange(self.numStates))
+        return expectedStateAction + self.gamma * sum(sumArg(s) for s in self.successorStates[state][action])
         # print "STATE:", state, "ACTION:", action, "UPDATED EXP REWARD:", self.actionTable[state][action]
         # print "TRANSITION PROBABILITIES FROM:", state
         # for a in xrange(self.numActions):

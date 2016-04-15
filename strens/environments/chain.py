@@ -23,7 +23,7 @@ class Chain(Environment):
         # action can be 0 or 1
         # 0 -> b, 1 -> a (with prob = 1 - probSlip)
         if random() < self.probSlip:
-            print "slipped!====================================================================="
+            # print "slipped!====================================================================="
             action = not action
         if action == 0:
             self.state = 0
@@ -77,7 +77,7 @@ if __name__=="__main__":
     ys = []
 
     import matplotlib.pyplot as plt
-    for i in xrange(10000):
+    for i in xrange(5000):
         exp.doInteractions(1)
         agent.learn()
 
@@ -86,9 +86,9 @@ if __name__=="__main__":
         if i%100 == 0:
             xs.append(i)
             ys.append(reward)
-        print learner.laststate, learner.lastaction, learner.lastreward
+            print i
+        # print learner.laststate, learner.lastaction, learner.lastreward
 #        print controller.params.reshape(5, 2)
 
     print "TOTAL REWARD:", reward
-    plt.plot(xs, ys)
-    plt.show()
+    print ys
