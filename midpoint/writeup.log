@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  14 APR 2016 22:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  14 APR 2016 23:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -395,49 +395,78 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ]
-<chain.png, id=54, 348.30125pt x 110.4125pt>
+<chain.png, id=55, 348.30125pt x 110.4125pt>
 File: chain.png Graphic file (type png)
  <use chain.png>
-Package pdftex.def Info: chain.png used on input line 113.
+Package pdftex.def Info: chain.png used on input line 111.
 (pdftex.def)             Requested size: 187.89914pt x 59.56456pt.
 
-<loop.png, id=56, 303.1325pt x 160.6pt>
+<loop.png, id=57, 303.1325pt x 160.6pt>
 File: loop.png Graphic file (type png)
  <use loop.png>
-Package pdftex.def Info: loop.png used on input line 114.
+Package pdftex.def Info: loop.png used on input line 112.
 (pdftex.def)             Requested size: 187.89914pt x 99.55135pt.
 
-<easymaze.png, id=57, 451.6875pt x 529.98pt>
+<easymaze.png, id=58, 451.6875pt x 529.98pt>
 File: easymaze.png Graphic file (type png)
  <use easymaze.png>
-Package pdftex.def Info: easymaze.png used on input line 120.
+Package pdftex.def Info: easymaze.png used on input line 118.
 (pdftex.def)             Requested size: 93.94957pt x 110.23161pt.
 
-<hardmaze.png, id=58, 527.9725pt x 518.93875pt>
+<hardmaze.png, id=59, 516.93124pt x 516.93124pt>
 File: hardmaze.png Graphic file (type png)
  <use hardmaze.png>
-Package pdftex.def Info: hardmaze.png used on input line 121.
-(pdftex.def)             Requested size: 117.43875pt x 115.42589pt.
+Package pdftex.def Info: hardmaze.png used on input line 119.
+(pdftex.def)             Requested size: 117.43875pt x 117.43245pt.
 
-(./writeup.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 131.
- [2 <./chain.png> <./loop.png> <./easymaze.png> <./hardmaze.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 131.
+<chainPerf.png, id=62, 413.545pt x 282.05376pt>
+File: chainPerf.png Graphic file (type png)
+ <use chainPerf.png>
+Package pdftex.def Info: chainPerf.png used on input line 142.
+(pdftex.def)             Requested size: 187.89914pt x 128.15819pt.
+
+<loopPerf.png, id=63, 407.5225pt x 282.05376pt>
+File: loopPerf.png Graphic file (type png)
+ <use loopPerf.png>
+Package pdftex.def Info: loopPerf.png used on input line 143.
+(pdftex.def)             Requested size: 187.89914pt x 130.04756pt.
+
+<smallMazePerf.png, id=64, 401.5pt x 282.05376pt>
+File: smallMazePerf.png Graphic file (type png)
+ <use smallMazePerf.png>
+Package pdftex.def Info: smallMazePerf.png used on input line 150.
+(pdftex.def)             Requested size: 187.89914pt x 132.00148pt.
+
+<largeMazePerf.png, id=65, 394.47375pt x 282.05376pt>
+File: largeMazePerf.png Graphic file (type png)
+ <use largeMazePerf.png>
+Package pdftex.def Info: largeMazePerf.png used on input line 151.
+(pdftex.def)             Requested size: 187.89914pt x 134.35135pt.
+
+[2 <./chain.png> <./loop.png> <./easymaze.png> <./hardmaze.png> <./chainPerf.pn
+g> <./loopPerf.png>] (./writeup.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 174.
+ [3 <./smallMazePerf.png> <./largeMazePerf.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 174.
  (./writeup.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 131.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 131.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 174.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 174.
 Package rerunfilecheck Info: File `writeup.out' has not changed.
 (rerunfilecheck)             Checksum: D4A41EEFB90C394AFC30E950B6E9DDEB;331.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 131.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 174.
  ) 
 Here is how much of TeX's memory you used:
- 6979 strings out of 493089
- 99954 string characters out of 6134842
- 200578 words of memory out of 5000000
- 10360 multiletter control sequences out of 15000+600000
+ 7004 strings out of 493089
+ 100384 string characters out of 6134842
+ 201022 words of memory out of 5000000
+ 10378 multiletter control sequences out of 15000+600000
  12468 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,12n,32p,248b,322s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,12n,32p,326b,322s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -452,10 +481,10 @@ xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texliv
 e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive
 /2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on writeup.pdf (2 pages, 184944 bytes).
+Output written on writeup.pdf (3 pages, 245170 bytes).
 PDF statistics:
- 120 PDF objects out of 1000 (max. 8388607)
- 93 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 138 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
+ 16 named destinations out of 1000 (max. 500000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

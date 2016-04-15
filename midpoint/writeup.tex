@@ -43,7 +43,7 @@ MDPs are commonly used to learn the policy for the system with a set of states $
 a set of actions $A$, a reward function $R(S, A)$, and a transition function
 $T(s, a, s') = P(X^{(t+1)} = s' | X^{(t)} = s, Y^{(t)} = a)$. To learn the optimal
 long-term-reward policy, we define a quality function with discount factor
-$\gamma$, $Q = \sum_{t=0}^\infty \gamma^t R^(t)$, which we approximate for each
+$\gamma$, $Q = \sum_{t=0}^\infty \gamma^t R^{(t)}$, which we approximate for each
 state-action pair as
 \begin{equation*}
 Q(s, a) = \mathbb{E}[R(s,a)]+\gamma\sum_{s'}T(s, a, s')\textrm{max}_{a'} Q(s',a')
@@ -82,8 +82,7 @@ updated posteriors are
 \end{align*}
 Then in estimating $Q$ at each time step, we sampled $\mu$ and $\tau$, which we then used
 to sample $\mathbb{E}[R(s, a)]$, for each $(s, a)$.
-
-For comparison (and debugging) we also used the modes of our posterior distributions as
+For comparison we also evaluated performance when using the modes of the posterior as
 estimates for $\pi(s, a)$ and $\mathbb{E}[R(s,a)]$.
 
 \subsection{Testing Problems}
@@ -123,18 +122,51 @@ Yellow squares are flags; red is the goal; all mazes start at the top left corne
 \end{figure}
 
 \subsection{Preliminary Results}
-For the chain and loop problems, we performed learning phases of 5000 time steps. For
-the easy maze problem, we performed learning phases of 2000 time steps, and for the hard
-maze problem, we performed learning phases of 5000 time steps. In each of these
-problems, there is a clear optimal policy and optimal reward. For the chain problem,
-because the agent slips an average of 0.2 times, the optimal behavior on average receives
-a total reward of approximately 20000 for 5000 steps. For the loop problem, the optimal
-behavior receives a total reward of 2000 for 5000 steps. In the maze problem, the
-probability of slipping makes it less clear what the optimal policy and total reward
-would be in the end. We estimate that each slip adds an extra step in on the optimal
-path, so the optimal reward for the easy maze is between 410 and 420 (with 2000 steps),
+For the chain, loop, and hard maze problems, we performed learning phases of 5000 time steps. For
+the easy maze problem, we performed learning phases of 2000 time steps. For the chain problem,
+because of slipping, the optimal behavior on average receives a total reward of 22000 for
+5000 steps. For the loop problem, the optimal behavior receives a total reward of 2000
+for 5000 steps. In the maze problem, we estimate that each slip adds an extra step in on the optimal
+path, so the optimal reward for the easy maze is between 450 and 460 (with 2000 steps),
 and between 540 and 550 for the hard maze (with 5000 steps).
 
+For each experiment, we compared the performance of the policy learned with samples from the posteriors
+(Bayesian sampling), the policy learned with the modes of the posteriors (Bayesian ML), and the naive $Q$
+learner, which learns $Q$ with dynamic programming (
+$Q(s, a) \leftarrow (1 - \alpha)Q(s,a) + \alpha(R + \gamma \max_{a'}Q(s, a')$
+). The comparisons are shown in Figure ~\ref{fig:chainloopPerf} and
+~\ref{fig:easyhardPerf}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{chainPerf.png}
+\includegraphics[width=0.4\textwidth]{loopPerf.png}
+\caption{\label{fig:chainloopPerf} The performance of three learners in the ``Chain'' and ``Loop''
+environments.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{smallMazePerf.png}
+\includegraphics[width=0.4\textwidth]{largeMazePerf.png}
+\caption{\label{fig:easyhardPerf} The performance of three learners in the easy and hard ``Maze''
+environments. The Bayesian ML and sampling learners clearly outperform the naive $Q$ learner, and
+find the optimal policy in the easy maze.}
+\end{figure}
+
+In all four environments, the Bayesian ML and sampling learners significantly outperform the naive
+$Q$ learner. In the chain environment, the Bayesian sampling learner finds the near-optimal policy and
+receives a total reward of 21458, compared with the 18550 from Bayesian ML and the 14548 from $Q$ learning.
+The difference between $Q$ and Bayesian models became obvious in the loop problem, in which both Bayesian
+sampling and ML achieved optimal performance of staying in the left loop and receiving 2 rewards for every
+5 steps, and the $Q$ learner remained in the right loop and received 1 reward for every 5 steps.
+
+In the easy maze problem, the Bayesian sampling learner achieved a near-optimal reward of 456, and both the
+Bayesian ML and sampling learners drastically outperform the $Q$ learner. Because our environment provided
+so little feedback in the maze, the $Q$ learner was unable to find and exploit the optimal path. The Bayesian
+learners were able to deduce the walls without rewards and exploit the optimal path. In the hard maze problem,
+all learners struggled, but the Bayesian methods clearly outperform the $Q$ learner. As Figure ~\ref{fig:easyhardPerf}
+shows, however, the cumulative reward still sees occasional jumps, indicating it has not converged.
 
 \bibliographystyle{apalike}
 \bibliography{writeup}
