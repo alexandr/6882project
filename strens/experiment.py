@@ -39,20 +39,21 @@ if __name__=="__main__":
     from module import ActionModule
     from agent import BayesAgent
 
-    env = Loop()
-    task = LoopTask(env)
+    # env = Loop()
+    # task = LoopTask(env)
 
     # env = Chain()
     # task = ChainTask(env)
 
-    # struct = np.array([[0, 0, 0, 0],
-    #                    [0, 1, 1, 0],
-    #                    [0, 1, 1, 0],
-    #                    [0, 1, 1, 0],
-    #                    [0, 0, 0, 0]])
+    # struct = np.array([[0, 0, 0, 0, 0],
+    #                  [0, 1, 1, 0, 0],
+    #                  [0, 1, 1, 1, 0],
+    #                  [0, 1, 1, 1, 0],
+    #                  [0, 1, 0, 1, 0],
+    #                  [0, 0, 0, 0, 0]])
+    # flagPos = [(3, 1)]
+    # goal = (3, 3)
 
-    # flagPos = [(3,1)]
-    # goal = (2, 2)
     struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
                        [0, 1, 1, 0, 1, 1, 1, 1, 0],
                        [0, 1, 1, 0, 1, 1, 0, 1, 0],
@@ -66,8 +67,8 @@ if __name__=="__main__":
     flagPos = [(5,1), (7, 3), (3, 5)]
     goal = (1, 7)
 
-    # env = FlagMaze(struct, flagPos, goal)
-    # task = FlagMazeTask(env)
+    env = FlagMaze(struct, flagPos, goal)
+    task = FlagMazeTask(env)
 
     module = ActionModule(env.outdim, env.indim)
     agent = BayesAgent(module)
@@ -80,7 +81,7 @@ if __name__=="__main__":
     import matplotlib.pyplot as plt
 
     for i in xrange(5000):
-        print exp.doInteractions(1)
+        exp.doInteractions(1)
         reward += agent.lastreward
 
         if i%50 == 0:

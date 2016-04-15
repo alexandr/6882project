@@ -141,7 +141,7 @@ if __name__ == "__main__":
     hardFlags = [(7,3), (3, 5)]
     hardGoal = (1, 7)
 
-    env = FlagMaze(easy, easyFlags, easyGoal)
+    env = FlagMaze(hard, hardFlags, hardGoal)
     controller = ActionValueTable(env.outdim, env.indim)
     controller.initialize(1.)
 #    controller.initialize(0.)
@@ -160,17 +160,19 @@ if __name__ == "__main__":
     xs = []
     ys = []
 
-    for i in xrange(10000):
+    for i in xrange(5000):
         exp.doInteractions(1)
         agent.learn()
         reward += agent.lastreward
 
-        if i%100 == 0:
+        if i%50 == 0:
             xs.append(i)
             ys.append(reward)
-        print learner.laststate, learner.lastaction, learner.lastreward
+            print i
+        #print learner.laststate, learner.lastaction, learner.lastreward
 
 #        print controller.params.reshape(5, 2)
     print "TOTAL REWARD:", reward
+    print ys
     plt.plot(xs, ys)
     plt.show()
