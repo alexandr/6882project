@@ -88,12 +88,12 @@ estimates for $\pi(s, a)$ and $\mathbb{E}[R(s,a)]$.
 
 \subsection{Testing Problems}
 We used three toy problems to test our implementation. In the ``Chain'' problem
-(Figure ~\ref{fig:chainloop}a), there are five states and two possible actions, with 0.2
+(Figure ~\ref{fig:chainloop} top), there are five states and two possible actions, with 0.2
 probability of slipping (performing the opposite action intended). The optimal
 policy is to explore to state 5, and stay there until slipping; the agent should try
 to get back to state 5 as much as possible.
 
-In the ``Loop" problem (Figure ~\ref{fig:chainloop}a), there are nine states and
+In the ``Loop" problem (Figure ~\ref{fig:chainloop} bottom), there are nine states and
 two possible actions, with no possibility of slipping. The optimal policy is to stay
 in the left loop and receive reward of 2 for every 5 actions. Because this problem has
 very little distinguishing the two actions in terms of short-term reward, effective
@@ -105,8 +105,7 @@ current position as its state (it has no physical sensors or observations of wal
 besides the its new state). Each time the agent reaches the goal, it receives a reward
 equal to the number of flags collected and is transported back to the beginning of the
 maze. All other state-action pairs receive zero reward. In the maze problem, we also
-have a probability of slipping (performing an action other than the
-one specified) of 0.2.
+have a probability of slipping (performing an action other than the one specified) of 0.2.
 
 \begin{figure}
 \centering
@@ -120,10 +119,22 @@ one specified) of 0.2.
 \includegraphics[width=0.2\textwidth]{easymaze.png}
 \includegraphics[width=0.25\textwidth]{hardmaze.png}
 \caption{\label{fig:maze} The ``Maze'' flag-collecting toy problem used in testing.
-Yellow squares are flags; red is the goal.}
+Yellow squares are flags; red is the goal; all mazes start at the top left corner.}
 \end{figure}
 
 \subsection{Preliminary Results}
+For the chain and loop problems, we performed learning phases of 5000 time steps. For
+the easy maze problem, we performed learning phases of 2000 time steps, and for the hard
+maze problem, we performed learning phases of 5000 time steps. In each of these
+problems, there is a clear optimal policy and optimal reward. For the chain problem,
+because the agent slips an average of 0.2 times, the optimal behavior on average receives
+a total reward of approximately 20000 for 5000 steps. For the loop problem, the optimal
+behavior receives a total reward of 2000 for 5000 steps. In the maze problem, the
+probability of slipping makes it less clear what the optimal policy and total reward
+would be in the end. We estimate that each slip adds an extra step in on the optimal
+path, so the optimal reward for the easy maze is between 410 and 420 (with 2000 steps),
+and between 540 and 550 for the hard maze (with 5000 steps).
+
 
 \bibliographystyle{apalike}
 \bibliography{writeup}

@@ -137,7 +137,8 @@ if __name__ == "__main__":
                      [0, 1, 1, 1, 0, 1, 1, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
-    hardFlags = [(1,3), (7, 2), (5, 6)]
+#    hardFlags = [(1,3), (7, 2), (5, 6)]
+    hardFlags = [(7,3), (3, 5)]
     hardGoal = (1, 7)
 
     env = FlagMaze(easy, easyFlags, easyGoal)
