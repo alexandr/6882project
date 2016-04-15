@@ -1,5 +1,6 @@
 import numpy as np
 from random import random
+import matplotlib.pyplot as plt
 
 from pybrain.rl.environments.environment import Environment
 from pybrain.rl.environments.task import Task
@@ -39,8 +40,6 @@ class FlagMaze(Environment):
         self.states = np.copy(maze)
         self.states[maze == 0] = -1
         self.states[maze > 0] = np.arange(len(maze[maze > 0]))
-        print self.states
-        print self.maze
         
         # number of possible sensor values
         self.outdim = r * c
@@ -85,6 +84,13 @@ class FlagMaze(Environment):
                 obs[i] = 0
         return obs
 
+    def showMaze(self):
+        img = np.copy(self.maze)
+        img[self.goal] = 3
+        plt.figure()
+        plt.imshow(img, interpolation='None')
+        plt.show()
+
 
 class FlagMazeTask(Task):
 
@@ -112,20 +118,29 @@ if __name__ == "__main__":
     from pybrain.rl.experiments import Experiment
     from pybrain.rl.explorers import EpsilonGreedyExplorer
 
-    struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
-                       [0, 1, 1, 0, 1, 1, 1, 1, 0],
-                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
-                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
-                       [0, 1, 1, 0, 1, 0, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    easy = np.array([[0, 0, 0, 0, 0],
+                     [0, 1, 1, 0, 0],
+                     [0, 1, 1, 1, 0],
+                     [0, 1, 1, 1, 0],
+                     [0, 1, 0, 1, 0],
+                     [0, 0, 0, 0, 0]])
+    easyFlags = [(3, 1)]
+    easyGoal = (3, 3)
 
-    flagPos = [(5,1), (7, 3), (3, 5)]
-    goal = (1, 7)
+    hard = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 1, 0, 1, 1, 0, 1, 1, 0],
+                     [0, 1, 0, 1, 1, 0, 1, 1, 0],
+                     [0, 1, 1, 1, 1, 1, 1, 1, 0],
+                     [0, 1, 1, 1, 1, 1, 1, 1, 0],
+                     [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                     [0, 1, 1, 1, 0, 1, 1, 0, 0],
+                     [0, 1, 1, 1, 0, 1, 1, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
-    env = FlagMaze(struct, flagPos, goal)
+    hardFlags = [(1,3), (7, 2), (5, 6)]
+    hardGoal = (1, 7)
+
+    env = FlagMaze(easy, easyFlags, easyGoal)
     controller = ActionValueTable(env.outdim, env.indim)
     controller.initialize(1.)
 #    controller.initialize(0.)
@@ -138,8 +153,8 @@ if __name__ == "__main__":
     task = FlagMazeTask(env)
     exp = Experiment(task, agent)
 
-    for i in xrange(100):
-        exp.doInteractions(1)
-        agent.learn()
-        print learner.laststate, learner.lastaction, learner.lastreward
+#    for i in xrange(100):
+#        exp.doInteractions(1)
+#        agent.learn()
+#        print learner.laststate, learner.lastaction, learner.lastreward
 #        print controller.params.reshape(5, 2)
