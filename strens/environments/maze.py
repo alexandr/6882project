@@ -153,8 +153,23 @@ if __name__ == "__main__":
     task = FlagMazeTask(env)
     exp = Experiment(task, agent)
 
-#    for i in xrange(100):
-#        exp.doInteractions(1)
-#        agent.learn()
-#        print learner.laststate, learner.lastaction, learner.lastreward
+    import matplotlib.pyplot as plt
+
+    reward = 0
+    xs = []
+    ys = []
+
+    for i in xrange(10000):
+        exp.doInteractions(1)
+        agent.learn()
+        reward += agent.lastreward
+
+        if i%100 == 0:
+            xs.append(i)
+            ys.append(reward)
+        print learner.laststate, learner.lastaction, learner.lastreward
+
 #        print controller.params.reshape(5, 2)
+    print "TOTAL REWARD:", reward
+    plt.plot(xs, ys)
+    plt.show()
