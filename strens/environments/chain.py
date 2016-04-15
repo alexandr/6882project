@@ -72,8 +72,23 @@ if __name__=="__main__":
     task = ChainTask(env)
     exp = Experiment(task, agent)
 
-    for i in xrange(100):
+    reward = 0
+    xs = []
+    ys = []
+
+    import matplotlib.pyplot as plt
+    for i in xrange(10000):
         exp.doInteractions(1)
         agent.learn()
+
+        reward += agent.lastreward
+
+        if i%100 == 0:
+            xs.append(i)
+            ys.append(reward)
         print learner.laststate, learner.lastaction, learner.lastreward
 #        print controller.params.reshape(5, 2)
+
+    print "TOTAL REWARD:", reward
+    plt.plot(xs, ys)
+    plt.show()

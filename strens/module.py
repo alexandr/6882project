@@ -46,10 +46,10 @@ class ActionModule(ActionValueInterface):
         self.visitCount = np.zeros((numStates, numActions))
         self.sumRewards = np.zeros((numStates, numActions))
 
-        self.rewardGammaAlpha = 10.
+        self.rewardGammaAlpha = 100.
         self.rewardGammaBeta = 1.
 
-        self.muNot = 10.
+        self.muNot = 0.
         self.nNot = 1.
 
 

@@ -78,8 +78,25 @@ if __name__ == "__main__":
     task = LoopTask(env)
     exp = Experiment(task, agent)
 
-    for i in xrange(100):
+    import matplotlib.pyplot as plt
+
+    reward = 0
+    xs = []
+    ys = []
+
+    for i in xrange(5000):
         exp.doInteractions(1)
         agent.learn()
+        reward += agent.lastreward
+        print i
+
+        if i%50 == 0:
+            xs.append(i)
+            ys.append(reward)
         print learner.laststate, learner.lastaction, learner.lastreward
 #        print controller.params.reshape(5, 2)
+
+    print "TOTAL REWARD:", reward
+    print ys
+    plt.plot(xs, ys)
+    plt.show()

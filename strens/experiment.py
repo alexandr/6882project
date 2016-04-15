@@ -39,8 +39,8 @@ if __name__=="__main__":
     from module import ActionModule
     from agent import BayesAgent
 
-    # env = Loop()
-    # task = LoopTask(env)
+    env = Loop()
+    task = LoopTask(env)
 
     # env = Chain()
     # task = ChainTask(env)
@@ -66,8 +66,8 @@ if __name__=="__main__":
     flagPos = [(5,1), (7, 3), (3, 5)]
     goal = (1, 7)
 
-    env = FlagMaze(struct, flagPos, goal)
-    task = FlagMazeTask(env)
+    # env = FlagMaze(struct, flagPos, goal)
+    # task = FlagMazeTask(env)
 
     module = ActionModule(env.outdim, env.indim)
     agent = BayesAgent(module)
@@ -79,18 +79,19 @@ if __name__=="__main__":
 
     import matplotlib.pyplot as plt
 
-    for i in xrange(10000):
+    for i in xrange(5000):
         print exp.doInteractions(1)
         reward += agent.lastreward
 
-        if i%100 == 0:
+        if i%50 == 0:
             xs.append(i)
             ys.append(reward)
         if agent.lastreward > 0:
             print "ACTION:",agent.lastaction, "STATE:",agent.laststate, "REWARD:",agent.lastreward
-        print env.curPos
+        # print env.curPos
 
     print "TOTAL REWARD:", reward
+    print ys
     plt.plot(xs, ys)
     plt.show()
 
