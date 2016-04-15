@@ -41,36 +41,56 @@ if __name__=="__main__":
 
     # env = Loop()
     # task = LoopTask(env)
-    struct = np.array([[0, 0, 0, 0],
-                       [0, 1, 1, 0],
-                       [0, 1, 1, 0],
-                       [0, 1, 1, 0],
-                       [0, 0, 0, 0]])
 
-    flagPos = [(3,1)]
-    goal = (2, 2)
-    # struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #                    [0, 1, 1, 0, 1, 1, 1, 1, 0],
-    #                    [0, 1, 1, 0, 1, 1, 0, 1, 0],
-    #                    [0, 1, 1, 0, 1, 1, 0, 1, 0],
-    #                    [0, 1, 1, 0, 1, 0, 0, 1, 0],
-    #                    [0, 1, 1, 1, 1, 1, 0, 1, 0],
-    #                    [0, 0, 0, 0, 0, 0, 0, 1, 0],
-    #                    [0, 1, 1, 1, 1, 1, 1, 1, 0],
-    #                    [0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    # env = Chain()
+    # task = ChainTask(env)
 
-    # flagPos = [(5,1), (7, 3), (3, 5)]
-    # goal = (1, 7)
+    # struct = np.array([[0, 0, 0, 0],
+    #                    [0, 1, 1, 0],
+    #                    [0, 1, 1, 0],
+    #                    [0, 1, 1, 0],
+    #                    [0, 0, 0, 0]])
+
+    # flagPos = [(3,1)]
+    # goal = (2, 2)
+    struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                       [0, 1, 1, 0, 1, 1, 1, 1, 0],
+                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
+                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
+                       [0, 1, 1, 0, 1, 0, 0, 1, 0],
+                       [0, 1, 1, 1, 1, 1, 0, 1, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 1, 0],
+                       [0, 1, 1, 1, 1, 1, 1, 1, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 0, 0]])
+
+    flagPos = [(5,1), (7, 3), (3, 5)]
+    goal = (1, 7)
 
     env = FlagMaze(struct, flagPos, goal)
     task = FlagMazeTask(env)
+
     module = ActionModule(env.outdim, env.indim)
     agent = BayesAgent(module)
     exp = Experiment(task, agent)
 
-    for _ in xrange(1000):
+    reward = 0
+    xs = []
+    ys = []
+
+    import matplotlib.pyplot as plt
+
+    for i in xrange(10000):
         print exp.doInteractions(1)
+        reward += agent.lastreward
+
+        if i%100 == 0:
+            xs.append(i)
+            ys.append(reward)
         if agent.lastreward > 0:
             print "ACTION:",agent.lastaction, "STATE:",agent.laststate, "REWARD:",agent.lastreward
         print env.curPos
+
+    print "TOTAL REWARD:", reward
+    plt.plot(xs, ys)
+    plt.show()
 
