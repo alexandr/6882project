@@ -19,7 +19,7 @@
 \posttitle{\par\end{center}\vskip 0.5em}
 
 
-\title{6.882 Progress Report: Bayesian Reinforcement Learning}
+\title{Bayesian Reinforcement Learning}
 \date{}
 \author {Vickie Ye and Alexandr Wang}
 
@@ -30,13 +30,19 @@
 \section{Introduction}
 In reinforcement learning, the learning procedure consists of two parallel processes:
 estimating parameters of the surrounding environment and learning the optimal policy
-of highest long-term reward. In this project, we wanted to examine both of these
-processes with a Bayesian approach. In this half, we used a Bayesian framework to
-estimate the parameters of the learner's environment in a Markov decision process
-(MDP). We followed \cite{strens} in this section. For the next half of
-the project, we will use Gaussian process temporal difference (GPTD) learning as a
-Bayesian solution to the policy evalution. We will follow \cite{engel} in this
-section.
+of highest long-term reward. A common way this is done is by learning a latent ``value''
+function over the states and actions, which the agent uses to make policy decisions.
+In this project, we examined two Bayesian approaches to learning the latent value function
+and policy. One way to do this is with a Bayesian model to estimate the parameters of the
+environment, as done in \cite{strens}. This framework places Bayesian priors on the
+transition function and reward function of the environment and updates its posterior
+as it interacts with the environment. 
+
+Another Bayesian approach toward learning the value function uses Gaussian processes, as
+in \cite{engel}. This approach to value function approximation is non-parametric, and
+provides both a function estimate (the GP mean) and uncertainty (the GP covariance).
+The flexibility of this framework allows it to scale well to harder, higher-dimensional
+problems.
 
 \section{Bayesian MDP}
 MDPs are commonly used to learn the policy for the system with a set of states $S$,
@@ -49,29 +55,25 @@ state-action pair as
 Q(s, a) = \mathbb{E}[R(s,a)]+\gamma\sum_{s'}T(s, a, s')\textrm{max}_{a'} Q(s',a')
 \end{equation*}
 
-The quantities we need to estimate are then expected returns $\mathbb{E}[R(s, a)]$
-and transition probabilities $T(s, a, s')$ to make our updates to $Q$.
+In this framework, the quantities we need to estimate are the reward function
+$R(s, a)$ and transition probabilities $T(s, a, s')$ to make our updates to $Q$.
 
 \subsection{Models for Transition Probabilities and Expected Return}
-We represent the transition probabilities for each state-action pair $(s, a)$ as
-a multinomial distribution over the $N$ states of the system,
+We define the transition distribution $\pi$ for each state-action pair $(s, a)$ as
 \begin{equation*}
-\mathbf{\pi}(s, a) = (T(s, a, s_0), ..., T(s, a, s_{N-1}))
+\mathbf{\pi}(s, a) = (T(s, a, s_0), ..., T(s, a, s_{N-1})),
 \end{equation*}
+where $\pi(s, a)_i = \mathbb{P}(s_i| s, a)$.
 
-In \cite{strens}, the author considers a Dirichlet prior and a second ``sparse"
-uniform prior. For our experiments we used a Dirichlet prior with $\alpha_i = 1$.
-Our updated posterior for each $\mathbf{\pi}(s, a)$ is then
+For our experiments we use a uniform Dirichlet prior with $\alpha_i = 1$.
+Our updated posterior $\mathbf{\pi}(s, a)$ given the data is then
 \begin{equation*}
 \mathbf{\pi}^{(t)} \sim \textrm{Dirichlet}(\mathbf{\alpha}^{(t)}| \mathbf{n}^{(t)}),
 \alpha^{(t)}_i = \alpha_i + n_i^{(t)}
 \end{equation*}
-Although a sparse prior might have its benefits, for the problems described in the paper,
-which we reproduced here, we did not feel the need to enforce sparseness into our
-transition matrix. Then in estimating $Q$ at each time step, we sampled $\pi(s, a)$ for
-from our posterior.
+Then in estimating $Q$ at each time step, we sampled $\pi(s, a)$ from our posterior.
 
-We represent the expected return for each state-action pair $(s, a)$ as Gaussian-
+We represent the reward for each state-action pair $(s, a)$ as Gaussian-
 distributed with mean $\mu$ and precision $\tau$. We use a Ga($\beta,\rho$)
 prior for $\tau$ and a $\mathcal{N}(\mu_0, c_0\tau)$ prior for $\mu$. Then our
 updated posteriors are
@@ -81,9 +83,9 @@ updated posteriors are
 \mu &\sim \mathcal{N}\Big(\frac{n\bar{x} + c_0\mu_0}{n + c_0}, (n+c_0)\tau\Big)
 \end{align*}
 Then in estimating $Q$ at each time step, we sampled $\mu$ and $\tau$, which we then used
-to sample $\mathbb{E}[R(s, a)]$, for each $(s, a)$.
+to sample $R$, for each $(s, a)$.
 For comparison we also evaluated performance when using the modes of the posterior as
-estimates for $\pi(s, a)$ and $\mathbb{E}[R(s,a)]$.
+estimates for $\pi(s, a)$ and $R(s,a)$.
 
 \subsection{Testing Problems}
 We used three toy problems to test our implementation. In the ``Chain'' problem
@@ -167,6 +169,8 @@ so little feedback in the maze, the $Q$ learner was unable to find and exploit t
 learners were able to deduce the walls without rewards and exploit the optimal path. In the hard maze problem,
 all learners struggled, but the Bayesian methods clearly outperform the $Q$ learner. As Figure ~\ref{fig:easyhardPerf}
 shows, however, the cumulative reward still sees occasional jumps, indicating it has not converged.
+
+\section{GPSARSA}
 
 \section{Source Code}
 All of our source code is accessible at \url{https://github.com/alexandrwang/6882project}.
