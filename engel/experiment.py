@@ -1,6 +1,6 @@
 import numpy as np
 
-class Experiment(object):
+class GPTDExperiment(object):
     """ An experiment matches up a task with an agent and handles their interactions.
     """
 
@@ -65,9 +65,9 @@ if __name__=="__main__":
     env = FlagMaze(struct, flagPos, goal)
     task = FlagMazeTask(env)
 
-    module = ActionModule(env.outdim, env.indim)
-    agent = BayesAgent(module)
-    exp = Experiment(task, agent)
+    module = GPTDModule(env.start, 0)
+    agent = GPTDAgent(module)
+    exp = GPTDExperiment(task, agent)
 
     reward = 0
     xs = []
@@ -75,7 +75,7 @@ if __name__=="__main__":
 
     import matplotlib.pyplot as plt
 
-    for i in xrange(5000):
+    for i in xrange(5):
         exp.doInteractions(1)
         reward += agent.lastreward
 

@@ -20,7 +20,7 @@ class GPTDModule(object):
         # a is coefficient vector of projection onto dictionary
         self.a = np.ones(1)
         # K_tilde is kernel matrix of dictionary
-        self.K_tilde_inv = np.array([1. / fullKernel(initialState, initialAction)])
+        self.K_tilde_inv = np.array([1. / self.fullKernel(initialState, initialAction)])
         self.alpha_tilde = np.zeros(1)
         self.C_tilde = np.zeros((1, 1))
         self.c_tilde = np.zeros(1)
@@ -36,12 +36,12 @@ class GPTDModule(object):
         self.actions = [N, W, S, E]
 
     
-    def stateKernel(s1, s2): # state is r, c in the maze
+    def stateKernel(self, s1, s2): # state is r, c in the maze
         dr = s1[0] - s2[0]
         dc = s1[1] - s2[1]
         return self.c_state * np.exp(-(dr**2 + dc**2)/(2*self.sigma_state**2))
 
-    def actionKernel(a1, a2): # action is 0, 1, 2, 3
+    def actionKernel(self, a1, a2): # action is 0, 1, 2, 3
         diff = abs(a1 - a2)
         if diff == 0:
             return 1
@@ -51,13 +51,13 @@ class GPTDModule(object):
             dot = 0
         return 1 + (1 - self.b_action)/(2*(dot - 1))
 
-    def fullKernel(x1, x2):
-        return stateKernel(x1[0], x2[0]) * actionKernel(x1[1], x2[1])
+    def fullKernel(self, x1, x2):
+        return self.stateKernel(x1[0], x2[0]) * self.actionKernel(x1[1], x2[1])
 
     def getKernelVec(self, x):
         k = np.zeros(len(self.dictionary))
         for i, xi in enumerate(self.dictionary):
-            k[i] = fullKernel(xi, x)
+            k[i] = self.fullKernel(xi, x)
             
     def getMaxAction(self, state):
         if len(self.dictionary) <= 1 or np.random.random() < self.eps:
