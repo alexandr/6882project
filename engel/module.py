@@ -71,18 +71,19 @@ class GPTDModule(object):
         print 'alphatilde', self.alpha_tilde
         beta = k_state * self.alpha_tilde
         u = np.zeros(2)
-        print 'beta', beta
         for i, xi in enumerate(self.dictionary):
             u += beta[i] * self.actions[xi[1]]
+        a = np.arctan2(u[1], u[0])
+        veca = np.array([np.cos(a), np.sin(a)])
 
         # get the action closest to the optimal angle vector
         out = 0
         dot = 0
         for i, act in enumerate(self.actions):
-            bdot = np.dot(act, u)
+            bdot = np.dot(act, veca)
             if bdot > dot:
                 out = i
-                bdot = dot
+                dot = bdot
         return out
 
 
@@ -94,15 +95,14 @@ class GPTDModule(object):
         k_tilde = self.getKernelVec(newx)
         a_prev = self.a
         self.a = self.K_tilde_inv.dot(k_tilde)
-        delta = self.fullKernel(newx, newx) - k_tilde.T.dot(self.a)
-        print 'ktilde', k_tilde, 'a', self.a
-        print 'delta', delta
+        delta = self.fullKernel(newx, newx) - k_tilde.dot(self.a)
         k_tilde_prev = self.getKernelVec(oldx)
         delta_k_tilde = k_tilde_prev - k_tilde * self.gamma
         lambd = self.gamma * self.sigma**2 / self.s
 
         self.d = self.d * lambd + reward - np.dot(delta_k_tilde, self.alpha_tilde)
 
+        print delta, 'delta'
         if (delta > self.nu): # adding to the dictionary if error is large
             r, c = self.K_tilde_inv.shape
             K_tilde_inv_t = np.zeros((r+1, c+1))
@@ -162,9 +162,6 @@ class GPTDModule(object):
                     np.dot(delta_k_tilde, self.c_tilde + c_tilde_prev * lambd)- \
                     lambd * self.gamma * self.sigma**2
 
-        print 's', self.s
-        print 'a', self.a
-        print 'alphat', self.alpha_tilde
-        self.alpha_tilde = self.alpha_tilde + self.c_tilde / self.s * self.d
-        print 'ct', self.c_tilde
+        self.alpha_tilde = self.alpha_tilde + self.c_tilde / float(self.s) * self.d
+
         self.C_tilde = self.C_tilde + self.c_tilde * self.c_tilde.T / self.s
