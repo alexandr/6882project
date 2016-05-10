@@ -70,20 +70,20 @@ class GPTDModule(object):
             k_state[i] = self.stateKernel(xi[0], state)
         beta = k_state * self.alpha_tilde
         u = np.zeros(2)
-        print 'beta', beta
         for i, xi in enumerate(self.dictionary):
             print 'xi', xi
             u += beta[i] * self.actions[xi[1]]
         a = np.arctan2(u[1], u[0])
+        veca = np.array([np.cos(a), np.sin(a)])
 
         # get the action closest to the optimal angle
         out = 0
         dot = 0
         for i, act in enumerate(self.actions):
-            bdot = np.dot(act, a)
+            bdot = np.dot(act, veca)
             if bdot > dot:
                 out = i
-                bdot = dot
+                dot = bdot
         return out
 
 
@@ -95,6 +95,7 @@ class GPTDModule(object):
         k_tilde = self.getKernelVec(newx)
         a_prev = self.a
         self.a = self.K_tilde_inv * k_tilde
+        print 'a', self.a
         delta = self.fullKernel(newx, newx) - np.dot(k_tilde, self.a)
         k_tilde_prev = self.getKernelVec(oldx)
         delta_k_tilde = k_tilde_prev - k_tilde * self.gamma
@@ -103,6 +104,7 @@ class GPTDModule(object):
         print delta_k_tilde, self.alpha_tilde
         self.d = self.d * lambd + reward - np.dot(delta_k_tilde, self.alpha_tilde)
 
+        print delta, 'delta'
         if (delta > self.nu): # adding to the dictionary if error is large
             print "ktildeinv", self.K_tilde_inv
             r, c = self.K_tilde_inv.shape
@@ -133,7 +135,11 @@ class GPTDModule(object):
             temp2[0:-1] = self.C_tilde * delta_k_tilde
             self.c_tilde = temp1 * lambd + h_tilde - temp2
 
-            self.alpha_tilde = np.append(self.alpha_tilde, 0)
+            print self.alpha_tilde
+            temp = np.zeros(len(self.alpha_tilde) + 1)
+            temp[0:-1] = self.alpha_tilde
+            self.alpha_tilde = temp
+            print self.alpha_tilde
 
             r,c = self.C_tilde.shape
             self.C_tilde = np.vstack((np.hstack((self.C_tilde, np.zeros((r,1)))),
@@ -159,5 +165,6 @@ class GPTDModule(object):
                     np.dot(delta_k_tilde, self.c_tilde + c_tilde_prev * lambd)- \
                     lambd * self.gamma * self.sigma**2
 
-        self.alpha_tilde = self.alpha_tilde + self.c_tilde / self.s * self.d
+        self.alpha_tilde = self.alpha_tilde + self.c_tilde / float(self.s) * self.d
+
         self.C_tilde = self.C_tilde + self.c_tilde * self.c_tilde.T / self.s
