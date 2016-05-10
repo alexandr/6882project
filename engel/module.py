@@ -94,7 +94,7 @@ class GPTDModule(object):
 
         k_tilde = self.getKernelVec(newx)
         a_prev = self.a
-        self.a = self.K_tilde_inv * k_tilde
+        self.a = np.dot(self.K_tilde_inv, k_tilde)
         print 'a', self.a
         delta = self.fullKernel(newx, newx) - np.dot(k_tilde, self.a)
         k_tilde_prev = self.getKernelVec(oldx)
@@ -123,17 +123,24 @@ class GPTDModule(object):
             h_tilde[-1] = -self.gamma
             delta_k = a_prev.dot(k_tilde_prev - k_tilde * 2 * self.gamma) + \
                     self.gamma**2*self.fullKernel(newx, newx)
+
+            print 'dkt', delta_k_tilde
             self.s = (1+self.gamma**2) * self.sigma**2 + delta_k - \
-                    delta_k_tilde.T * self.C_tilde * delta_k_tilde - \
-                    delta_k_tilde.T * self.C_tilde * delta_k_tilde + \
+                    np.dot(np.dot(delta_k_tilde.T, self.C_tilde), delta_k_tilde) - \
                     2 * lambd * np.dot(self.c_tilde, delta_k_tilde) - \
                     lambd * self.gamma * self.sigma**2
+
+            print 's1', self.s
 
             temp1 = np.zeros(len(self.c_tilde) + 1)
             temp2 = np.zeros(len(self.c_tilde) + 1)
             temp1[0:-1] = self.c_tilde
-            temp2[0:-1] = self.C_tilde * delta_k_tilde
-            self.c_tilde = temp1 * lambd + h_tilde - temp2
+            temp2[0:-1] = np.dot(self.C_tilde ,delta_k_tilde)
+            print 't1', temp1
+            print 't2', temp2
+            print 'htild', h_tilde
+            self.c_tilde = temp1 * float(lambd) + h_tilde - temp2
+            print 'ctild', self.c_tilde
 
             print self.alpha_tilde
             temp = np.zeros(len(self.alpha_tilde) + 1)
@@ -164,7 +171,9 @@ class GPTDModule(object):
             self.s = (1 + self.gamma**2) * self.sigma**2 + \
                     np.dot(delta_k_tilde, self.c_tilde + c_tilde_prev * lambd)- \
                     lambd * self.gamma * self.sigma**2
+            print 's2', self.s
 
+        print 's', self.s
         self.alpha_tilde = self.alpha_tilde + self.c_tilde / float(self.s) * self.d
 
         self.C_tilde = self.C_tilde + self.c_tilde * self.c_tilde.T / self.s
