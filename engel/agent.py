@@ -11,10 +11,16 @@ class GPTDAgent(object):
     lastaction = None
     lastreward = None
 
-    def __init__(self, module):
+    def __init__(self, module, initstate, initaction):
         self.module = module
+        self.curstate = initstate
+        self.nextaction = initaction
     
     def integrateObservation(self, obs):
+        # move last iteration into the past
+        self.laststate = self.curstate
+        self.lastaction = self.nextaction
+
         # observation MUST be in form (r, c)
         self.curstate = obs
 
@@ -28,7 +34,3 @@ class GPTDAgent(object):
         # do the update
         self.module.update(self.laststate, self.lastaction,
                 self.lastreward, self.curstate, self.nextaction)
-
-        # move this iteration into the past
-        self.laststate = self.curstate
-        self.lastaction = self.nextaction

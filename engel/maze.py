@@ -86,7 +86,7 @@ class FlagMazeTask(object):
         return 0
 
     def performAction(self, action):
-        Task.performAction(self, int(action))
+        self.env.performAction(int(action))
 
     def getObservation(self):
         return self.env.curPos

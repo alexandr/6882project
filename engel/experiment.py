@@ -66,7 +66,7 @@ if __name__=="__main__":
     task = FlagMazeTask(env)
 
     module = GPTDModule(env.start, 0)
-    agent = GPTDAgent(module)
+    agent = GPTDAgent(module, env.start, 0)
     exp = GPTDExperiment(task, agent)
 
     reward = 0

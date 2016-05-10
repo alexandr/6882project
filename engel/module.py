@@ -15,12 +15,14 @@ class GPTDModule(object):
         self.b_action = 0.1
         self.gamma = 0.9
         self.sigma = 1.
+        self.eps = 0.1
 
-        self.dictionary = []
+        self.dictionary = [(initialState, initialAction)]
         # a is coefficient vector of projection onto dictionary
         self.a = np.ones(1)
+        init = (initialState, initialAction)
         # K_tilde is kernel matrix of dictionary
-        self.K_tilde_inv = np.array([1. / self.fullKernel((initialState, initialAction), (initialState, initialAction))])
+        self.K_tilde_inv = np.array([[1. / self.fullKernel(init, init)]])
         self.alpha_tilde = np.zeros(1)
         self.C_tilde = np.zeros((1, 1))
         self.c_tilde = np.zeros(1)
@@ -58,16 +60,19 @@ class GPTDModule(object):
         k = np.zeros(len(self.dictionary))
         for i, xi in enumerate(self.dictionary):
             k[i] = self.fullKernel(xi, x)
+        return k
             
     def getMaxAction(self, state):
         if len(self.dictionary) <= 1 or np.random.random() < self.eps:
             return choice(range(len(self.actions)))
         k_state = np.zeros(len(self.dictionary))
         for i, xi in enumerate(self.dictionary):
-            k_state[i] = stateKernel(xi[0], state)
+            k_state[i] = self.stateKernel(xi[0], state)
         beta = k_state * self.alpha_tilde
         u = np.zeros(2)
+        print 'beta', beta
         for i, xi in enumerate(self.dictionary):
+            print 'xi', xi
             u += beta[i] * self.actions[xi[1]]
         a = np.arctan2(u[1], u[0])
 
@@ -82,20 +87,25 @@ class GPTDModule(object):
         return out
 
 
-    def update(state, action, reward, newstate, newaction):
+    def update(self, state, action, reward, newstate, newaction):
         # project new state onto the current dictionary
-        k_tilde = self.getKernelVec((newstate, newaction))
+        oldx = (state, action)
+        newx = (newstate, newaction)
+
+        k_tilde = self.getKernelVec(newx)
         a_prev = self.a
         self.a = self.K_tilde_inv * k_tilde
-        delta = self.fullKernel((newstate, newaction)) - np.dot(k_tilde, self.a)
-        k_tilde_prev = self.getKernelVec((state, action))
+        delta = self.fullKernel(newx, newx) - np.dot(k_tilde, self.a)
+        k_tilde_prev = self.getKernelVec(oldx)
         delta_k_tilde = k_tilde_prev - k_tilde * self.gamma
         lambd = self.gamma * self.sigma**2 / self.s
 
+        print delta_k_tilde, self.alpha_tilde
         self.d = self.d * lambd + reward - np.dot(delta_k_tilde, self.alpha_tilde)
 
         if (delta > self.nu): # adding to the dictionary if error is large
-            r, c = K_tilde_inv.shape
+            print "ktildeinv", self.K_tilde_inv
+            r, c = self.K_tilde_inv.shape
             K_tilde_inv_t = np.zeros((r+1, c+1))
             K_tilde_inv_t[0:-1, 0:-1] = self.K_tilde_inv * delta + self.a * self.a.T
             K_tilde_inv_t[0:-1, -1] = -self.a
@@ -106,11 +116,11 @@ class GPTDModule(object):
 
             self.a = np.zeros(len(self.a) + 1)
             self.a[-1] = 1
-            h_tilde = np.zeros(len(self.a) + 1)
+            h_tilde = np.zeros(len(a_prev) + 1)
             h_tilde[:-1] = a_prev
             h_tilde[-1] = -self.gamma
             delta_k = a_prev.dot(k_tilde_prev - k_tilde * 2 * self.gamma) + \
-                    self.gamma**2*self.fullKernel(newstate, newaction)
+                    self.gamma**2*self.fullKernel(newx, newx)
             self.s = (1+self.gamma**2) * self.sigma**2 + delta_k - \
                     delta_k_tilde.T * self.C_tilde * delta_k_tilde - \
                     delta_k_tilde.T * self.C_tilde * delta_k_tilde + \
