@@ -108,14 +108,14 @@ equal to the number of flags collected and is transported back to the beginning 
 maze. All other state-action pairs receive zero reward. In the maze problem, we also
 have a probability of slipping (performing an action other than the one specified) of 0.2.
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.4\textwidth]{chain.png}
 \includegraphics[width=0.4\textwidth]{loop.png}
 \caption{\label{fig:chainloop} The ``Chain'' and ``Loop'' toy problems used in testing.}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.18\textwidth]{easymaze.png}
 \includegraphics[width=0.24\textwidth]{hardmaze.png}
@@ -139,7 +139,7 @@ $Q(s, a) \leftarrow (1 - \alpha)Q(s,a) + \alpha(R + \gamma \max_{a'}Q(s, a')$
 ). The comparisons are shown in Figure ~\ref{fig:chainloopPerf} and
 ~\ref{fig:easyhardPerf}.
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.48\textwidth]{chainPerf.png}
 \includegraphics[width=0.48\textwidth]{loopPerf.png}
@@ -147,7 +147,7 @@ $Q(s, a) \leftarrow (1 - \alpha)Q(s,a) + \alpha(R + \gamma \max_{a'}Q(s, a')$
 environments.}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.48\textwidth]{smallMazePerf.png}
 \includegraphics[width=0.48\textwidth]{largeMazePerf.png}
@@ -172,7 +172,7 @@ shows, however, the cumulative reward still sees occasional jumps, indicating it
 
 \section{GPSARSA}
 In the GPSARSA framework, GPs are used to approximate the quality function $Q$. Similarly to GP regression,
-we put a GP prior over $Q \approx \mathcal{N}(0, k(\cdot, \cdot))$, where $\mathbb{E}[Q(x)] = 0$ and
+we put a GP prior over $Q \sim \mathcal{N}(0, k(\cdot, \cdot))$, where $\mathbb{E}[Q(x)] = 0$ and
 $\mathbb{E}[Q(x)Q(x')] = k(x, x')$, where $x, x' \in \mathcal{X} = S \times A$. The kernel $k(x, x')$
 should reflect a similarity notion for the problem at hand.
 
@@ -182,7 +182,7 @@ and the new $x'$ is evaluated. We can thus formulate the reward model as
 R(x^{(t)}, x^{(t+1)}) = Q(x^{(t)}) - \gamma Q(x^{(t+1)}) + N(x^{(t)}, x^{(t+1)})
 \label{eq:gpsarsa_R}
 \end{equation}
-where $N(x, x') = \Delta Q(x) - \gamma \Delta Q(x')$, $\Delta Q \approx \mathcal{N}(0,\Sigma)$,
+where $N(x, x') = \Delta Q(x) - \gamma \Delta Q(x')$, $\Delta Q \sim \mathcal{N}(0,\Sigma)$,
 with $\Sigma(x, x') = \delta(x - x')\sigma^2(x)$. We can define for some time $t$, the random
 processes
 \begin{align*}
@@ -208,6 +208,17 @@ $$H^{(t)} =
 R^{(t-1)} = H^{(t)}Q^{(t)} + N^{(t-1)}
 \end{equation}
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.48\textwidth]{gptdCompare}
+\caption{\label{fig:easyhardPerf} Comparison of GPTD learner against other learners in the hard ``Maze" environment.}
+\end{figure}
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.30\textwidth]{veryhardmaze}
+\includegraphics[width=0.48\textwidth]{veryHardMazePerf}
+\caption{\label{fig:easyhardPerf} Pictured above is the very hard ``Maze" environment. Pictured below is the performance of GPTD learner against the Bayesian learners on very hard ``Maze" environment.}
+\end{figure}
 
 \subsection{Formulation and Experiment}
 
