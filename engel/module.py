@@ -94,15 +94,14 @@ class GPTDModule(object):
 
         k_tilde = self.getKernelVec(newx)
         a_prev = self.a
-        self.a = self.K_tilde_inv.dot(k_tilde)
-        delta = self.fullKernel(newx, newx) - k_tilde.dot(self.a)
+        self.a = np.dot(self.K_tilde_inv, k_tilde)
+        delta = self.fullKernel(newx, newx) - np.dot(k_tilde, self.a)
         k_tilde_prev = self.getKernelVec(oldx)
         delta_k_tilde = k_tilde_prev - k_tilde * self.gamma
         lambd = self.gamma * self.sigma**2 / self.s
 
         self.d = self.d * lambd + reward - np.dot(delta_k_tilde, self.alpha_tilde)
 
-        print delta, 'delta'
         if (delta > self.nu): # adding to the dictionary if error is large
             r, c = self.K_tilde_inv.shape
             K_tilde_inv_t = np.zeros((r+1, c+1))
@@ -121,17 +120,17 @@ class GPTDModule(object):
             h_tilde[-1] = -self.gamma
             delta_k = a_prev.dot(k_tilde_prev - k_tilde * 2 * self.gamma) + \
                     self.gamma**2*self.fullKernel(newx, newx)
+
             self.s = (1+self.gamma**2) * self.sigma**2 + delta_k - \
-                    delta_k_tilde.T.dot(self.C_tilde).dot(delta_k_tilde) - \
-                    delta_k_tilde.T.dot(self.C_tilde).dot(delta_k_tilde) + \
-                    2 * lambd * self.c_tilde.T.dot(delta_k_tilde) - \
+                    np.dot(np.dot(delta_k_tilde.T, self.C_tilde), delta_k_tilde) - \
+                    2 * lambd * np.dot(self.c_tilde, delta_k_tilde) - \
                     lambd * self.gamma * self.sigma**2
 
             temp1 = np.zeros(len(self.c_tilde) + 1)
             temp2 = np.zeros(len(self.c_tilde) + 1)
             temp1[0:-1] = self.c_tilde
-            temp2[0:-1] = self.C_tilde * delta_k_tilde
-            self.c_tilde = temp1 * lambd + h_tilde - temp2
+            temp2[0:-1] = np.dot(self.C_tilde ,delta_k_tilde)
+            self.c_tilde = temp1 * float(lambd) + h_tilde - temp2
 
             temp = np.zeros(len(self.alpha_tilde) + 1)
             temp[:-1] = self.alpha_tilde
