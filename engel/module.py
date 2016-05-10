@@ -21,12 +21,12 @@ class GPTDModule(object):
     actions = [N, NW, W, SW, S, SE, E, NE]
 
     def __init__(self, initialState, initialAction):
-        self.c_state = 10
+        self.c_state = 1000
         self.sigma_state = 0.2
         self.b_action = 0.1
-        self.gamma = 0.9
+        self.gamma = 0.90
         self.sigma = 1.
-        self.eps = 0.1
+        self.eps = 1.
 
         self.dictionary = [(initialState, initialAction)]
         # a is coefficient vector of projection onto dictionary
@@ -39,7 +39,7 @@ class GPTDModule(object):
         self.c_tilde = np.zeros(1)
         self.d = 0.
         self.s = INF
-        self.nu = 0.1
+        self.nu = 10
         
     
     def stateKernel(self, s1, s2): # state is r, c in the maze
@@ -75,6 +75,7 @@ class GPTDModule(object):
             u += beta[i] * self.actions[xi[1]]
         a = np.arctan2(u[1], u[0])
         veca = np.array([np.cos(a), np.sin(a)])
+        print 'angle', a
 
         # get the action closest to the optimal angle vector
         out = 0
