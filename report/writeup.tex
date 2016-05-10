@@ -32,6 +32,7 @@ In reinforcement learning, the learning procedure consists of two parallel proce
 estimating parameters of the surrounding environment and learning the optimal policy
 of highest long-term reward. A common way this is done is by learning a latent ``value''
 function over the states and actions, which the agent uses to make policy decisions.
+
 In this project, we examined two Bayesian approaches to learning the latent value function
 and policy. One way to do this is with a Bayesian model to estimate the parameters of the
 environment, as done in \cite{strens}. This framework places Bayesian priors on the
@@ -117,13 +118,13 @@ have a probability of slipping (performing an action other than the one specifie
 
 \begin{figure}
 \centering
-\includegraphics[width=0.2\textwidth]{easymaze.png}
-\includegraphics[width=0.25\textwidth]{hardmaze.png}
+\includegraphics[width=0.18\textwidth]{easymaze.png}
+\includegraphics[width=0.24\textwidth]{hardmaze.png}
 \caption{\label{fig:maze} The ``Maze'' flag-collecting toy problem used in testing.
 Yellow squares are flags; red is the goal; all mazes start at the top left corner.}
 \end{figure}
 
-\subsection{Preliminary Results}
+\subsection{Results}
 For the chain, loop, and hard maze problems, we performed learning phases of 5000 time steps. For
 the easy maze problem, we performed learning phases of 2000 time steps. For the chain problem,
 because of slipping, the optimal behavior on average receives a total reward of 22000 for
@@ -171,6 +172,28 @@ all learners struggled, but the Bayesian methods clearly outperform the $Q$ lear
 shows, however, the cumulative reward still sees occasional jumps, indicating it has not converged.
 
 \section{GPSARSA}
+In the GPSARSA framework, GPs are used to approximate the quality function $Q$. Similarly to GP regression,
+we put a GP prior over $Q \approx \mathcal{N}(0, k(\cdot, \cdot))$, where $\mathbb{E}[Q(x)] = 0$ and
+$\mathbb{E}[Q(x)Q(x')] = k(x, x')$, where $x, x' \in \mathcal{X} = S \times A$. The kernel $k(x, x')$
+should reflect a similarity notion for the problem at hand.
+
+SARSA refers to the interaction model where $x$ (state-action) is evaluated, a reward is received,
+and the new $x'$ is evaluated. We can thus formulate the reward model as
+\begin{equation}
+R(x^{(t)}, x^{(t+1)}) = Q(x^{(t)}) - \gamma Q(x^{(t+1)}) + N(x^{(t)}, x^{(t+1)})
+\end{equation}
+where $N(x, x') = \Delta Q(x) - \gamma \Delta Q(x')$, $\Delta Q \approx \mathcal{N}(0,\Sigma)$,
+with $\Sigma(x, x') = \delta(x - x')\sigma^2(x)$. We can define
+$$H^{(t)} =
+\begin{matrix}
+1 & -\gamma & 0 & \ldots & 0 \\
+0 & 1 & -\gamma & \ldots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \ldots & 1 & -\gamma
+\end{matrix}$$ and rewrite 
+
+
+\subsection{Formulation and Experiment}
 
 \section{Source Code}
 All of our source code is accessible at \url{https://github.com/alexandrwang/6882project}.
