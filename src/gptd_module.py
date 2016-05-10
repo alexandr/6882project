@@ -2,15 +2,26 @@ import numpy as np
 
 from random import choice
 
+INF = 1e9
+
 
 class GPTDModule(object):
 
-    def __init__(self):
+    def __init__(self, initialState, initialAction):
         self.history = []
         self.c_state = 10
         self.sigma_state = 0.2
         self.b_action = 0.1
-        self.alpha_tilde = None
+        self.alpha_tilde = np.zeros(1)
+        self.gamma = 0.9
+        self.sigma = 1.
+        self.s = INF
+        self.a = np.ones(1)
+        self.K_tilde_inv = np.array([1. / fullKernel(initialState, initialAction)])
+        self.C_tilde = np.zeros((1, 1))
+        self.c_tilde = np.zeros(1)
+        self.d = 0.
+        self.nu = 0.1
         
         N = np.array((-1, 0))
         W = np.array((0, 1))
@@ -64,5 +75,80 @@ class GPTDModule(object):
         return out
 
 
-    def update(state, action, reward, newstate):
-        pass
+    def update(state, action, reward, newstate, newaction):
+        k_tilde = self.getKernelVec((newstate, newaction))
+        a_prev = self.a
+        self.a = self.K_tilde_inv * k_tilde
+        delta = self.fullKernel((newstate, newaction)) - np.dot(k_tilde, self.a)
+        k_tilde_prev = self.getKernelVec((state, action))
+        delta_k_tilde = k_tilde_prev - k_tilde * self.gamma
+        lambd = self.gamma * self.sigma * self.sigma / self.s
+
+        self.d = self.d * lambd + reward - np.dot(delta_k_tilde, self.alpha_tilde)
+
+        if (delta > self.nu):
+            r, c = K_tilde_inv.shape
+            K_tilde_inv_t = np.zeros((r+1, c+1))
+            K_tilde_inv_t[0:-1, 0:-1] = self.K_tilde_inv * delta + self.a * self.a.T
+            K_tilde_inv_t[0:-1, -1] = -self.a
+            K_tilde_inv_t[-1, 0:-1] = -self.a.T 
+            K_tilde_inv_t[-1, -1] = 1
+            K_tilde_inv_t /= delta
+            self.K_tilde_inv = K_tilde_inv_t
+
+            self.a = np.zeros(len(self.a) + 1)
+            a[-1] = 1
+            h_tilde = np.zeros(len(self.a))
+            h_tilde[0:-2] = a_prev
+            h_tilde[-1] = -self.gamma
+            delta_k = a_prev.dot(k_tilde_prev - k_tilde * 2 * self.gamma) + self.gamma**2*self.fullKernel(newstate, newaction)
+            self.s = (1+self.gamma**2) * self.sigma**2 + delta_k - delta_k_tilde.T * self.C_tilde * delta_k_tilde \
+                - delta_k_tilde.T * self.C_tilde * delta_k_tilde + 2 * lambd * np.dot(self.c_tilde, delta_k_tilde) - lambd * self.gamma * self.sigma * self.sigma
+
+            temp1 = np.zeros(len(self.c_tilde) + 1)
+            temp2 = np.zeros(len(self.c_tilde) + 1)
+            temp1[0:-1] = self.c_tilde
+            temp2[0:-1] = self.C_tilde * delta_k_tilde
+            self.c_tilde = temp1 * lambd + h_tilde - temp2
+
+            temp = np.zeros(len(self.alpha_tilde) + 1)
+            temp[0:-1] = self.alpha_tilde
+            self.alpha_tilde = temp
+
+            r,c = self.C_tilde.shape
+            temp = np.zeros((r+1, c+1))
+            temp[0:-1, 0:-1] = self.C_tilde
+            self.C_tilde = temp
+
+            self.history.append((newstate, newaction))
+
+            if self.c_tilde[0] >= INF:
+                print "NaN detected"
+
+        else:
+            h_tilde = a_prev - self.a * self.gamma
+            delta_k = np.dot(h_tilde, delta_k_tilde)
+            c_tilde_prev = self.c_tilde
+
+            self.c_tilde = self.c_tilde * lambd + h_tilde - self.C_tilde * delta_k_tilde
+
+            if self.c_tilde[0] >= INF:
+                print "Positive Infinity detected."
+
+            self.s = (1 + self.gamma * self.gamma) * self.sigma * self.sigma + np.dot(delta_k_tilde, self.c_tilde + c_tilde_prev * lambd) - lambd * self.gamma * self.sigma * self.sigma
+
+        self.alpha_tilde = self.alpha_tilde + self.c_tilde / self.s * self.d
+        self.C_tilde = self.C_tilde + self.c_tilde * self.c_tilde.T / self.s
+
+
+
+
+
+
+
+
+
+
+
+
+
