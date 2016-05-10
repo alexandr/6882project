@@ -20,7 +20,7 @@ class GPTDModule(object):
         # a is coefficient vector of projection onto dictionary
         self.a = np.ones(1)
         # K_tilde is kernel matrix of dictionary
-        self.K_tilde_inv = np.array([1. / self.fullKernel(initialState, initialAction)])
+        self.K_tilde_inv = np.array([1. / self.fullKernel((initialState, initialAction), (initialState, initialAction))])
         self.alpha_tilde = np.zeros(1)
         self.C_tilde = np.zeros((1, 1))
         self.c_tilde = np.zeros(1)
