@@ -20,11 +20,15 @@ class FlagMaze(object):
 
     # directions
     N = (-1, 0)
+    NW = (-1, 1)
     W = (0, 1)
+    SW = (1, 1)
     S = (1, 0)
+    SE = (1, -1)
     E = (0, -1)
+    NE = (-1, -1)
 
-    directions = [N, W, S, E]
+    directions = [N, NW, W, SW, S, SE, E, NE]
     
     # number of possible actions
     indim = len(directions)

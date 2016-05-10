@@ -10,6 +10,16 @@ EPS = 1e-6
 '''
 class GPTDModule(object):
 
+    N = np.array((-1, 0))
+    NW = np.array((-1, 1))
+    W = np.array((0, 1))
+    SW = np.array((1, 1))
+    S = np.array((1, 0))
+    SE = np.array((1, -1))
+    E = np.array((0, -1))
+    NE = np.array((-1, -1))
+    actions = [N, NW, W, SW, S, SE, E, NE]
+
     def __init__(self, initialState, initialAction):
         self.c_state = 10
         self.sigma_state = 0.2
@@ -31,27 +41,16 @@ class GPTDModule(object):
         self.s = INF
         self.nu = 0.1
         
-        N = np.array((-1, 0))
-        W = np.array((0, 1))
-        S = np.array((1, 0))
-        E = np.array((0, -1))
-
-        self.actions = [N, W, S, E]
-
     
     def stateKernel(self, s1, s2): # state is r, c in the maze
         dr = s1[0] - s2[0]
         dc = s1[1] - s2[1]
         return self.c_state * np.exp(-(dr**2 + dc**2)/(2*self.sigma_state**2))
 
-    def actionKernel(self, a1, a2): # action is 0, 1, 2, 3
-        diff = abs(a1 - a2)
-        if diff == 0:
-            dot = 1 - EPS
-        elif diff == 2:
-            dot = -1
-        else:
-            dot = 0
+    def actionKernel(self, a1, a2): # action is 0 to 7
+        d1 = self.actions[a1]
+        d2 = self.actions[a2]
+        dot = np.dot(d1, d2) - EPS
         return 1 + (1 - self.b_action)/(2*(dot - 1))
 
     def fullKernel(self, x1, x2):
