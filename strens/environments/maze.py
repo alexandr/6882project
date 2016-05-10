@@ -73,23 +73,31 @@ class FlagMaze(Environment):
                 self.maze[newpos] = 1
             self.curPos = newpos
 
-    def getSensors(self):
-        '''returns the state of the four surrounding squares'''
-        obs = np.ones(len(FlagMaze.directions))
-        for i, d in enumerate(FlagMaze.directions):
-            newpos = self._moveInDir(self.curPos, d)
-            if self._canMove(newpos):
-                obs[i] = self.maze[newpos]
-            else:
-                obs[i] = 0
-        return obs
-
     def showMaze(self):
         img = np.copy(self.maze)
         img[self.goal] = 3
         plt.figure()
         plt.imshow(img, interpolation='None')
         plt.show()
+
+
+class FlagMazeHard(FlagMaze):
+
+    def __init__(self, maze, flagPos, goal):
+        super(FlagMazeHard, self).__init__(maze, flagPos, goal)
+
+        # directions
+        N = (-1, 0)
+        NW = (-1, 1)
+        W = (0, 1)
+        SW = (1, 1)
+        S = (1, 0)
+        SE = (1, -1)
+        E = (0, -1)
+        NE = (-1, -1)
+
+        self.directions = [N, NW, W, SW, S, SE, E, NE]
+        self.indim = len(self.directions)
 
 
 class FlagMazeTask(Task):
