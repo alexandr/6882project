@@ -40,27 +40,27 @@ if __name__=="__main__":
     # env = Chain()
     # task = ChainTask(env)
 
-    # struct = np.array([[0, 0, 0, 0, 0],
-    #                  [0, 1, 1, 0, 0],
-    #                  [0, 1, 1, 1, 0],
-    #                  [0, 1, 1, 1, 0],
-    #                  [0, 1, 0, 1, 0],
-    #                  [0, 0, 0, 0, 0]])
-    # flagPos = [(3, 1)]
-    # goal = (3, 3)
+    struct = np.array([[0, 0, 0, 0, 0],
+                     [0, 1, 1, 0, 0],
+                     [0, 1, 1, 1, 0],
+                     [0, 1, 1, 1, 0],
+                     [0, 1, 0, 1, 0],
+                     [0, 0, 0, 0, 0]])
+    flagPos = [(3, 1)]
+    goal = (3, 3)
 
-    struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
-                       [0, 1, 1, 0, 1, 1, 1, 1, 0],
-                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
-                       [0, 1, 1, 0, 1, 1, 0, 1, 0],
-                       [0, 1, 1, 0, 1, 0, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 0, 0]])
+    # struct = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #                    [0, 1, 1, 0, 1, 1, 1, 1, 0],
+    #                    [0, 1, 1, 0, 1, 1, 0, 1, 0],
+    #                    [0, 1, 1, 0, 1, 1, 0, 1, 0],
+    #                    [0, 1, 1, 0, 1, 0, 0, 1, 0],
+    #                    [0, 1, 1, 1, 1, 1, 0, 1, 0],
+    #                    [0, 0, 0, 0, 0, 0, 0, 1, 0],
+    #                    [0, 1, 1, 1, 1, 1, 1, 1, 0],
+    #                    [0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
-    flagPos = [(5,1), (7, 3), (3, 5)]
-    goal = (1, 7)
+    # flagPos = [(5,1), (7, 3), (3, 5)]
+    # goal = (1, 7)
 
     env = FlagMaze(struct, flagPos, goal)
     task = FlagMazeTask(env)
@@ -75,7 +75,8 @@ if __name__=="__main__":
 
     import matplotlib.pyplot as plt
 
-    for i in xrange(5):
+    for i in xrange(10000):
+        print i
         exp.doInteractions(1)
         reward += agent.lastreward
 
@@ -84,7 +85,7 @@ if __name__=="__main__":
             ys.append(reward)
         if agent.lastreward > 0:
             print "ACTION:",agent.lastaction, "STATE:",agent.laststate, "REWARD:",agent.lastreward
-        # print env.curPos
+        print env.curPos
 
     print "TOTAL REWARD:", reward
     print ys
