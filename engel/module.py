@@ -68,19 +68,18 @@ class GPTDModule(object):
         k_state = np.zeros(len(self.dictionary))
         for i, xi in enumerate(self.dictionary):
             k_state[i] = self.stateKernel(xi[0], state)
+        print 'alphatilde', self.alpha_tilde
         beta = k_state * self.alpha_tilde
         u = np.zeros(2)
         print 'beta', beta
         for i, xi in enumerate(self.dictionary):
-            print 'xi', xi
             u += beta[i] * self.actions[xi[1]]
-        a = np.arctan2(u[1], u[0])
 
-        # get the action closest to the optimal angle
+        # get the action closest to the optimal angle vector
         out = 0
         dot = 0
         for i, act in enumerate(self.actions):
-            bdot = np.dot(act, a)
+            bdot = np.dot(act, u)
             if bdot > dot:
                 out = i
                 bdot = dot
@@ -94,17 +93,17 @@ class GPTDModule(object):
 
         k_tilde = self.getKernelVec(newx)
         a_prev = self.a
-        self.a = self.K_tilde_inv * k_tilde
-        delta = self.fullKernel(newx, newx) - np.dot(k_tilde, self.a)
+        self.a = self.K_tilde_inv.dot(k_tilde)
+        delta = self.fullKernel(newx, newx) - k_tilde.T.dot(self.a)
+        print 'ktilde', k_tilde, 'a', self.a
+        print 'delta', delta
         k_tilde_prev = self.getKernelVec(oldx)
         delta_k_tilde = k_tilde_prev - k_tilde * self.gamma
         lambd = self.gamma * self.sigma**2 / self.s
 
-        print delta_k_tilde, self.alpha_tilde
         self.d = self.d * lambd + reward - np.dot(delta_k_tilde, self.alpha_tilde)
 
         if (delta > self.nu): # adding to the dictionary if error is large
-            print "ktildeinv", self.K_tilde_inv
             r, c = self.K_tilde_inv.shape
             K_tilde_inv_t = np.zeros((r+1, c+1))
             K_tilde_inv_t[0:-1, 0:-1] = self.K_tilde_inv * delta + self.a * self.a.T
@@ -116,15 +115,16 @@ class GPTDModule(object):
 
             self.a = np.zeros(len(self.a) + 1)
             self.a[-1] = 1
+            print 'a', self.a
             h_tilde = np.zeros(len(a_prev) + 1)
             h_tilde[:-1] = a_prev
             h_tilde[-1] = -self.gamma
             delta_k = a_prev.dot(k_tilde_prev - k_tilde * 2 * self.gamma) + \
                     self.gamma**2*self.fullKernel(newx, newx)
             self.s = (1+self.gamma**2) * self.sigma**2 + delta_k - \
-                    delta_k_tilde.T * self.C_tilde * delta_k_tilde - \
-                    delta_k_tilde.T * self.C_tilde * delta_k_tilde + \
-                    2 * lambd * np.dot(self.c_tilde, delta_k_tilde) - \
+                    delta_k_tilde.T.dot(self.C_tilde).dot(delta_k_tilde) - \
+                    delta_k_tilde.T.dot(self.C_tilde).dot(delta_k_tilde) + \
+                    2 * lambd * self.c_tilde.T.dot(delta_k_tilde) - \
                     lambd * self.gamma * self.sigma**2
 
             temp1 = np.zeros(len(self.c_tilde) + 1)
@@ -133,7 +133,9 @@ class GPTDModule(object):
             temp2[0:-1] = self.C_tilde * delta_k_tilde
             self.c_tilde = temp1 * lambd + h_tilde - temp2
 
-            self.alpha_tilde = np.append(self.alpha_tilde, 0)
+            temp = np.zeros(len(self.alpha_tilde) + 1)
+            temp[:-1] = self.alpha_tilde
+            self.alpha_tilde = temp
 
             r,c = self.C_tilde.shape
             self.C_tilde = np.vstack((np.hstack((self.C_tilde, np.zeros((r,1)))),
@@ -141,6 +143,7 @@ class GPTDModule(object):
 
             self.dictionary.append((newstate, newaction))
 
+            print self.c_tilde
             if self.c_tilde[0] >= INF:
                 print "NaN detected"
 
@@ -159,5 +162,9 @@ class GPTDModule(object):
                     np.dot(delta_k_tilde, self.c_tilde + c_tilde_prev * lambd)- \
                     lambd * self.gamma * self.sigma**2
 
+        print 's', self.s
+        print 'a', self.a
+        print 'alphat', self.alpha_tilde
         self.alpha_tilde = self.alpha_tilde + self.c_tilde / self.s * self.d
+        print 'ct', self.c_tilde
         self.C_tilde = self.C_tilde + self.c_tilde * self.c_tilde.T / self.s
