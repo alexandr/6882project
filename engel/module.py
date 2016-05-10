@@ -3,6 +3,7 @@ import numpy as np
 from random import choice
 
 INF = np.inf
+EPS = 1e-6
 
 
 '''The online sparsified GPTD module.
@@ -46,7 +47,7 @@ class GPTDModule(object):
     def actionKernel(self, a1, a2): # action is 0, 1, 2, 3
         diff = abs(a1 - a2)
         if diff == 0:
-            return 1
+            dot = 1 - EPS
         elif diff == 2:
             dot = -1
         else:
