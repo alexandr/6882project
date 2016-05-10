@@ -75,7 +75,8 @@ if __name__=="__main__":
 
     import matplotlib.pyplot as plt
 
-    for i in xrange(5):
+    for i in xrange(1000):
+        print i
         exp.doInteractions(1)
         reward += agent.lastreward
 

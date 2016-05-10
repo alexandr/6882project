@@ -140,6 +140,8 @@ class GPTDModule(object):
 
             self.dictionary.append((newstate, newaction))
 
+            print self.c_tilde
+
             if self.c_tilde[0] >= INF:
                 print "NaN detected"
 
@@ -149,8 +151,9 @@ class GPTDModule(object):
             c_tilde_prev = self.c_tilde
 
             self.c_tilde = self.c_tilde * lambd + h_tilde - \
-                    self.C_tilde * delta_k_tilde
+                    np.dot(self.C_tilde, delta_k_tilde)
 
+            print self.c_tilde
             if self.c_tilde[0] >= INF:
                 print "Positive Infinity detected."
 
