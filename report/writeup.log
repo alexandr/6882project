@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  10 MAY 2016 19:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  10 MAY 2016 19:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -395,25 +395,25 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ]
-<chain.png, id=60, 348.30125pt x 110.4125pt>
+<chain.png, id=64, 348.30125pt x 110.4125pt>
 File: chain.png Graphic file (type png)
  <use chain.png>
 Package pdftex.def Info: chain.png used on input line 114.
 (pdftex.def)             Requested size: 187.89914pt x 59.56456pt.
 
-<loop.png, id=62, 303.1325pt x 160.6pt>
+<loop.png, id=66, 303.1325pt x 160.6pt>
 File: loop.png Graphic file (type png)
  <use loop.png>
 Package pdftex.def Info: loop.png used on input line 115.
 (pdftex.def)             Requested size: 187.89914pt x 99.55135pt.
 
-<easymaze.png, id=63, 405.515pt x 484.81125pt>
+<easymaze.png, id=67, 405.515pt x 484.81125pt>
 File: easymaze.png Graphic file (type png)
  <use easymaze.png>
 Package pdftex.def Info: easymaze.png used on input line 121.
 (pdftex.def)             Requested size: 84.55246pt x 101.081pt.
 
-<hardmaze.png, id=64, 482.80376pt x 483.8075pt>
+<hardmaze.png, id=68, 482.80376pt x 483.8075pt>
 File: hardmaze.png Graphic file (type png)
  <use hardmaze.png>
 Package pdftex.def Info: hardmaze.png used on input line 122.
@@ -422,25 +422,25 @@ Package pdftex.def Info: hardmaze.png used on input line 122.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-<chainPerf.png, id=67, 413.545pt x 282.05376pt>
+<chainPerf.png, id=71, 413.545pt x 282.05376pt>
 File: chainPerf.png Graphic file (type png)
  <use chainPerf.png>
 Package pdftex.def Info: chainPerf.png used on input line 145.
 (pdftex.def)             Requested size: 225.4804pt x 153.78725pt.
 
-<loopPerf.png, id=68, 407.5225pt x 282.05376pt>
+<loopPerf.png, id=72, 407.5225pt x 282.05376pt>
 File: loopPerf.png Graphic file (type png)
  <use loopPerf.png>
 Package pdftex.def Info: loopPerf.png used on input line 146.
 (pdftex.def)             Requested size: 225.4804pt x 156.05965pt.
 
-<smallMazePerf.png, id=69, 401.5pt x 282.05376pt>
+<smallMazePerf.png, id=73, 401.5pt x 282.05376pt>
 File: smallMazePerf.png Graphic file (type png)
  <use smallMazePerf.png>
 Package pdftex.def Info: smallMazePerf.png used on input line 153.
 (pdftex.def)             Requested size: 225.4804pt x 158.40521pt.
 
-<largeMazePerf.png, id=70, 394.47375pt x 282.05376pt>
+<largeMazePerf.png, id=74, 394.47375pt x 282.05376pt>
 File: largeMazePerf.png Graphic file (type png)
  <use largeMazePerf.png>
 Package pdftex.def Info: largeMazePerf.png used on input line 154.
@@ -467,22 +467,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 204.
  (./writeup.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 204.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 204.
-
-
-Package rerunfilecheck Warning: File `writeup.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `writeup.out':
-(rerunfilecheck)             Before: 244F6D51955C97AD7F36DD7E8E106B91;419
-(rerunfilecheck)             After:  7949522D22A25B6E9BD0B73F01DC1369;482.
+Package rerunfilecheck Info: File `writeup.out' has not changed.
+(rerunfilecheck)             Checksum: 7949522D22A25B6E9BD0B73F01DC1369;482.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 204.
  ) 
 Here is how much of TeX's memory you used:
- 7013 strings out of 493089
- 100477 string characters out of 6134842
+ 7014 strings out of 493089
+ 100493 string characters out of 6134842
  200894 words of memory out of 5000000
- 10381 multiletter control sequences out of 15000+600000
+ 10382 multiletter control sequences out of 15000+600000
  12636 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,12n,32p,326b,332s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -501,10 +494,10 @@ ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texliv
 e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive
 /2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on writeup.pdf (4 pages, 256282 bytes).
+Output written on writeup.pdf (4 pages, 258434 bytes).
 PDF statistics:
- 157 PDF objects out of 1000 (max. 8388607)
- 118 compressed objects within 2 object streams
+ 160 PDF objects out of 1000 (max. 8388607)
+ 121 compressed objects within 2 object streams
  21 named destinations out of 1000 (max. 500000)
- 97 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 105 words of extra memory for PDF output out of 10000 (max. 10000000)
 

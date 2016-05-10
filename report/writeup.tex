@@ -69,21 +69,21 @@ where $\pi(s, a)_i = \mathbb{P}(s_i| s, a)$.
 For our experiments we use a uniform Dirichlet prior with $\alpha_i = 1$.
 Our updated posterior $\mathbf{\pi}(s, a)$ given the data is then
 \begin{equation*}
-\mathbf{\pi}^{(t)} \sim \textrm{Dirichlet}(\mathbf{\alpha}^{(t)}| \mathbf{n}^{(t)}),
-\alpha^{(t)}_i = \alpha_i + n_i^{(t)}
+\mathbf{\pi}^{(t)} \sim \textrm{Dirichlet}(\mathbf{\alpha}^{(t)}| \mathbf{m}^{(t)}),
+\alpha^{(t)}_i = \alpha_i + m_i^{(t)}
 \end{equation*}
-Then in estimating $Q$ at each time step, we sampled $\pi(s, a)$ from our posterior.
+where $\mathbf{m}^{(t)}$ represent the observed counts for the transitions. Then in estimating $Q$ at each time step, we sampled $\pi(s, a)$ from our posterior.
 
 We represent the reward for each state-action pair $(s, a)$ as Gaussian-
 distributed with mean $\mu$ and precision $\tau$. We use a Ga($\beta,\rho$)
 prior for $\tau$ and a $\mathcal{N}(\mu_0, c_0\tau)$ prior for $\mu$. Then our
 updated posteriors are
 \begin{align*}
-\tau &\sim \textrm{Ga}\Big(\beta + \frac{n}{2}, \rho + \frac{1}{2}\sum_i(x_i - \bar{x})^2
-+ \frac{nc_0(\bar{x}-\mu_0)^2}{2(n+c_0)}\Big),\\
-\mu &\sim \mathcal{N}\Big(\frac{n\bar{x} + c_0\mu_0}{n + c_0}, (n+c_0)\tau\Big)
+\tau &\sim \textrm{Ga}\Big(\beta + \frac{k}{2}, \rho + \frac{1}{2}\sum_i(r_i - \bar{r})^2
++ \frac{kc_0(\bar{r}-\mu_0)^2}{2(n+c_0)}\Big),\\
+\mu &\sim \mathcal{N}\Big(\frac{k\bar{r} + c_0\mu_0}{k + c_0}, (k+c_0)\tau\Big)
 \end{align*}
-Then in estimating $Q$ at each time step, we sampled $\mu$ and $\tau$, which we then used
+for observed rewards $\mathbf{r} = \{r_i\}_{1\le i \le k}$ for the state-action pair. Then in estimating $Q$ at each time step, we sampled $\mu$ and $\tau$, which we then used
 to sample $R$, for each $(s, a)$.
 For comparison we also evaluated performance when using the modes of the posterior as
 estimates for $\pi(s, a)$ and $R(s,a)$.
