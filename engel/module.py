@@ -11,12 +11,12 @@ EPS = 1e-6
 class GPTDModule(object):
 
     def __init__(self, initialState, initialAction):
-        self.c_state = 10
+        self.c_state = 1000
         self.sigma_state = 0.2
         self.b_action = 0.1
-        self.gamma = 0.9
+        self.gamma = 0.90
         self.sigma = 1.
-        self.eps = 0.1
+        self.eps = 1.
 
         self.dictionary = [(initialState, initialAction)]
         # a is coefficient vector of projection onto dictionary
@@ -29,7 +29,7 @@ class GPTDModule(object):
         self.c_tilde = np.zeros(1)
         self.d = 0.
         self.s = INF
-        self.nu = 0.1
+        self.nu = 10
         
         N = np.array((-1, 0))
         W = np.array((0, 1))
@@ -76,6 +76,7 @@ class GPTDModule(object):
             u += beta[i] * self.actions[xi[1]]
         a = np.arctan2(u[1], u[0])
         veca = np.array([np.cos(a), np.sin(a)])
+        print 'angle', a
 
         # get the action closest to the optimal angle vector
         out = 0
