@@ -2,7 +2,7 @@ import numpy as np
 
 from random import choice
 
-INF = 1e9
+INF = np.inf
 
 
 '''The online sparsified GPTD module.
@@ -153,7 +153,6 @@ class GPTDModule(object):
             self.c_tilde = self.c_tilde * lambd + h_tilde - \
                     np.dot(self.C_tilde, delta_k_tilde)
 
-            print self.c_tilde
             if self.c_tilde[0] >= INF:
                 print "Positive Infinity detected."
 
