@@ -3,8 +3,6 @@ from random import choice
 
 from pybrain.rl.learners.valuebased.interface import ActionValueInterface
 
-from priors import DirichletPrior, SparsePrior
-
 
 '''
 Updates to Q are given by
@@ -37,7 +35,6 @@ class ActionModule(ActionValueInterface):
         if alphas is None:
             alphas = np.ones(numStates)
         self.alphas = alphas
-        self.prior = DirichletPrior(self.alphas)
 
         self.transitionProbs = np.zeros((numStates, numActions, numStates))
         self.initTransProbs()
