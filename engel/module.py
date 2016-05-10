@@ -71,7 +71,6 @@ class GPTDModule(object):
         beta = k_state * self.alpha_tilde
         u = np.zeros(2)
         for i, xi in enumerate(self.dictionary):
-            print 'xi', xi
             u += beta[i] * self.actions[xi[1]]
         a = np.arctan2(u[1], u[0])
         veca = np.array([np.cos(a), np.sin(a)])
@@ -95,18 +94,14 @@ class GPTDModule(object):
         k_tilde = self.getKernelVec(newx)
         a_prev = self.a
         self.a = np.dot(self.K_tilde_inv, k_tilde)
-        print 'a', self.a
         delta = self.fullKernel(newx, newx) - np.dot(k_tilde, self.a)
         k_tilde_prev = self.getKernelVec(oldx)
         delta_k_tilde = k_tilde_prev - k_tilde * self.gamma
         lambd = self.gamma * self.sigma**2 / self.s
 
-        print delta_k_tilde, self.alpha_tilde
         self.d = self.d * lambd + reward - np.dot(delta_k_tilde, self.alpha_tilde)
 
-        print delta, 'delta'
         if (delta > self.nu): # adding to the dictionary if error is large
-            print "ktildeinv", self.K_tilde_inv
             r, c = self.K_tilde_inv.shape
             K_tilde_inv_t = np.zeros((r+1, c+1))
             K_tilde_inv_t[0:-1, 0:-1] = self.K_tilde_inv * delta + self.a * self.a.T
@@ -124,29 +119,20 @@ class GPTDModule(object):
             delta_k = a_prev.dot(k_tilde_prev - k_tilde * 2 * self.gamma) + \
                     self.gamma**2*self.fullKernel(newx, newx)
 
-            print 'dkt', delta_k_tilde
             self.s = (1+self.gamma**2) * self.sigma**2 + delta_k - \
                     np.dot(np.dot(delta_k_tilde.T, self.C_tilde), delta_k_tilde) - \
                     2 * lambd * np.dot(self.c_tilde, delta_k_tilde) - \
                     lambd * self.gamma * self.sigma**2
 
-            print 's1', self.s
-
             temp1 = np.zeros(len(self.c_tilde) + 1)
             temp2 = np.zeros(len(self.c_tilde) + 1)
             temp1[0:-1] = self.c_tilde
             temp2[0:-1] = np.dot(self.C_tilde ,delta_k_tilde)
-            print 't1', temp1
-            print 't2', temp2
-            print 'htild', h_tilde
             self.c_tilde = temp1 * float(lambd) + h_tilde - temp2
-            print 'ctild', self.c_tilde
 
-            print self.alpha_tilde
             temp = np.zeros(len(self.alpha_tilde) + 1)
             temp[0:-1] = self.alpha_tilde
             self.alpha_tilde = temp
-            print self.alpha_tilde
 
             r,c = self.C_tilde.shape
             self.C_tilde = np.vstack((np.hstack((self.C_tilde, np.zeros((r,1)))),
@@ -171,9 +157,7 @@ class GPTDModule(object):
             self.s = (1 + self.gamma**2) * self.sigma**2 + \
                     np.dot(delta_k_tilde, self.c_tilde + c_tilde_prev * lambd)- \
                     lambd * self.gamma * self.sigma**2
-            print 's2', self.s
 
-        print 's', self.s
         self.alpha_tilde = self.alpha_tilde + self.c_tilde / float(self.s) * self.d
 
         self.C_tilde = self.C_tilde + self.c_tilde * self.c_tilde.T / self.s
