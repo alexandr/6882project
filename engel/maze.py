@@ -6,7 +6,7 @@ from pybrain.rl.environments.environment import Environment
 from pybrain.rl.environments.task import Task
 
 
-class FlagMaze(Environment):
+class FlagMaze(object):
     '''A maze with flags to be collected.
     The agent starts at the start state, collects flags on
     the way to the goal, and is immediately transported back
@@ -14,7 +14,6 @@ class FlagMaze(Environment):
     Maximize the flags collected.'''
 
     maze = None
-    states = None
     goal = None
     start = (1, 1)
     flagsCollected = 0
@@ -36,13 +35,6 @@ class FlagMaze(Environment):
         r, c = maze.shape
         self.numRows = r
         self.numColumns = c
-
-        self.states = np.copy(maze)
-        self.states[maze == 0] = -1
-        self.states[maze > 0] = np.arange(len(maze[maze > 0]))
-        
-        # number of possible sensor values
-        self.outdim = r * c
 
         self.goal = goal
         self.flags = flagPos
@@ -73,17 +65,6 @@ class FlagMaze(Environment):
                 self.maze[newpos] = 1
             self.curPos = newpos
 
-    def getSensors(self):
-        '''returns the state of the four surrounding squares'''
-        obs = np.ones(len(FlagMaze.directions))
-        for i, d in enumerate(FlagMaze.directions):
-            newpos = self._moveInDir(self.curPos, d)
-            if self._canMove(newpos):
-                obs[i] = self.maze[newpos]
-            else:
-                obs[i] = 0
-        return obs
-
     def showMaze(self):
         img = np.copy(self.maze)
         img[self.goal] = 3
@@ -92,7 +73,10 @@ class FlagMaze(Environment):
         plt.show()
 
 
-class FlagMazeTask(Task):
+class FlagMazeTask(object):
+    
+    def __init__(self, env):
+        self.env = env
 
     def getReward(self):
         if self.env.curPos == self.env.goal:
@@ -105,18 +89,10 @@ class FlagMazeTask(Task):
         Task.performAction(self, int(action[0]))
 
     def getObservation(self):
-        return [self.env.states[self.env.curPos],]
-#        x, y = self.env.curPos
-#        return [x * self.env.numColumns + y,]
+        return self.env.curPos
     
 
 if __name__ == "__main__":
-
-    from pybrain.rl.learners.valuebased import ActionValueTable
-    from pybrain.rl.learners import Q
-    from pybrain.rl.agents import LearningAgent
-    from pybrain.rl.experiments import Experiment
-    from pybrain.rl.explorers import EpsilonGreedyExplorer
 
     easy = np.array([[0, 0, 0, 0, 0],
                      [0, 1, 1, 0, 0],
@@ -142,37 +118,3 @@ if __name__ == "__main__":
     hardGoal = (1, 7)
 
     env = FlagMaze(hard, hardFlags, hardGoal)
-    controller = ActionValueTable(env.outdim, env.indim)
-    controller.initialize(1.)
-#    controller.initialize(0.)
-
-#    learner = Q(0.5, 0.8) # alpha 0.5, gamma 0.8
-    learner = Q() # default alpha 0.5, gamma 0.99
-#    learner._setExplorer(EpsilonGreedyExplorer(0.5))
-    agent = LearningAgent(controller, learner)
-
-    task = FlagMazeTask(env)
-    exp = Experiment(task, agent)
-
-    import matplotlib.pyplot as plt
-
-    reward = 0
-    xs = []
-    ys = []
-
-    for i in xrange(5000):
-        exp.doInteractions(1)
-        agent.learn()
-        reward += agent.lastreward
-
-        if i%50 == 0:
-            xs.append(i)
-            ys.append(reward)
-            print i
-        #print learner.laststate, learner.lastaction, learner.lastreward
-
-#        print controller.params.reshape(5, 2)
-    print "TOTAL REWARD:", reward
-    print ys
-    plt.plot(xs, ys)
-    plt.show()
