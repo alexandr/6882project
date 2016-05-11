@@ -4,7 +4,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage{enumerate}
 \usepackage{titleps}
-\usepackage[top=1in,bottom=1in,right=1in,left=1in]{geometry}
+\usepackage[top=1in,bottom=1in,right=0.75in,left=0.75in]{geometry}
 \usepackage[parfill]{parskip}
 \usepackage{titling}
 \usepackage{hyperref}
@@ -15,7 +15,7 @@
 \pagestyle{ruled}
 
 
-\setlength{\droptitle}{-4em}   % This is your set screw
+\setlength{\droptitle}{-7em}   % This is your set screw
 \posttitle{\par\end{center}\vskip 0.5em}
 
 
@@ -248,19 +248,24 @@ We tested this framework on larger mazes and compared its performance with the B
 in \cite{strens}. In this problem, states are defined in integer coordinates $(x, y)$, and actions can
 be one of 8 choices of neighbors. We note that this framework allows continuous state and action spaces, 
 but to reduce complexity of testing and implementation, we tested on the ``hard Maze'' in Figure
-~\ref{fig:maze} and the ``very hard Maze'' in Figure ~\ref{fig:easyhardPerf}. In these problems, however,
+~\ref{fig:maze} and the ``very hard Maze'' in Figure ~\ref{fig:veryHard}. In these problems, however,
 the agent had twice as many action choices.
+
+First, when comparing the performance on the ``hard Maze" (\autoref{fig:gptdCompare}), the GPSARSA learner performed significantly better
+than the Bayesian learners we implemented in section 2. In 5000 time steps, the GPSARSA learner achieved a reward of 148, compared to less than 60 for all other learners. The optimal path achieves 2 every 19 steps, so the GPSARSA learner is operating significantly closer to the optimal of 210 in 2000 steps. On the ``very hard Maze", the GPSARSA learner again significantly outperformed the Bayesian learners, but none were operating close to optimal (8 points every 24 steps).
+
+We believe the better performance is due to an improved exploration ability when compared to the Bayesian learners. In particular, the Bayesian learners seemed to do a poorer job in learning the uncertainty of its reward function. The GPSARSA learner, on the other hand, seemed to explore the state space much better, and had much better estimates on the uncertainty of its reward. In addition, the GPSARSA learner executed significantly faster than the Bayesian learners; the 20,000 step test took 30 seconds for the GPSARSA learner, but 10 minutes for the Bayesian learners.
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.48\textwidth]{gptdCompare}
-\caption{\label{fig:easyhardPerf} Comparison of GPTD learner against other learners in the hard ``Maze" environment.}
+\caption{\label{fig:gptdCompare} Comparison of GPTD learner against other learners in the hard ``Maze" environment.}
 \end{figure}
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.30\textwidth]{veryhardmaze}
 \includegraphics[width=0.48\textwidth]{veryHardMazePerf}
-\caption{\label{fig:easyhardPerf} Pictured above is the very hard ``Maze" environment. Pictured below is the performance of GPTD learner against the Bayesian learners on very hard ``Maze" environment.}
+\caption{\label{fig:veryHard} Pictured above is the very hard ``Maze" environment. Pictured below is the performance of GPTD learner against the Bayesian learners on very hard ``Maze" environment.}
 \end{figure}
 
 \section{Source Code}
