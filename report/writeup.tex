@@ -4,7 +4,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage{enumerate}
 \usepackage{titleps}
-\usepackage[top=1.25in,bottom=1in,right=1in,left=1in]{geometry}
+\usepackage[top=1in,bottom=1in,right=1in,left=1in]{geometry}
 \usepackage[parfill]{parskip}
 \usepackage{titling}
 \usepackage{hyperref}
@@ -56,10 +56,9 @@ state-action pair as
 Q(s, a) = \mathbb{E}[R(s,a)]+\gamma\sum_{s'}T(s, a, s')\textrm{max}_{a'} Q(s',a')
 \end{equation*}
 
-In this framework, the quantities we need to estimate are the reward function
+Thus, the quantities we need to estimate are the reward function
 $R(s, a)$ and transition probabilities $T(s, a, s')$ to make our updates to $Q$.
 
-\subsection{Models for Transition Probabilities and Expected Return}
 We define the transition distribution $\pi$ for each state-action pair $(s, a)$ as
 \begin{equation*}
 \mathbf{\pi}(s, a) = (T(s, a, s_0), ..., T(s, a, s_{N-1})),
@@ -72,17 +71,18 @@ Our updated posterior $\mathbf{\pi}(s, a)$ given the data is then
 \mathbf{\pi}^{(t)} \sim \textrm{Dirichlet}(\mathbf{\alpha}^{(t)}| \mathbf{m}^{(t)}),
 \alpha^{(t)}_i = \alpha_i + m_i^{(t)}
 \end{equation*}
-where $\mathbf{m}^{(t)}$ represent the observed counts for the transitions. Then in estimating $Q$ at each time step, we sampled $\pi(s, a)$ from our posterior.
+where $\mathbf{m}^{(t)}$ represent the observed counts for the transitions.
+Then in estimating $Q$ at each time step, we sampled $\pi(s, a)$ from our posterior.
 
 We represent the reward for each state-action pair $(s, a)$ as Gaussian-
 distributed with mean $\mu$ and precision $\tau$. We use a Ga($\beta,\rho$)
-prior for $\tau$ and a $\mathcal{N}(\mu_0, c_0\tau)$ prior for $\mu$. Then our
-updated posteriors are
+prior for $\tau$ and a $\mathcal{N}(\mu_0, c_0\tau)$ prior for $\mu$. The
+updated posteriors are then
 $$\tau \sim \textrm{Ga}\Big(\beta + \frac{k}{2}, \rho + \frac{1}{2}\sum_i(r_i - \bar{r})^2
 + \frac{kc_0(\bar{r}-\mu_0)^2}{2(n+c_0)}\Big),$$
 $$\mu \sim \mathcal{N}\Big(\frac{k\bar{r} + c_0\mu_0}{k + c_0}, (k+c_0)\tau\Big)$$
 for observed rewards $\mathbf{r} = \{r_i\}_{1\le i \le k}$ for the state-action pair.
-Then in estimating $Q$ at each time step, we sampled $\mu$ and $\tau$, which we then used
+Then to estimate $Q$ at each time step, we sampled $\mu$ and $\tau$, which we then used
 to sample $R$, for each $(s, a)$.
 For comparison we also evaluated performance when using the modes of the posterior as
 estimates for $\pi(s, a)$ and $R(s,a)$.
@@ -90,23 +90,19 @@ estimates for $\pi(s, a)$ and $R(s,a)$.
 \subsection{Testing Problems}
 We used three toy problems to test our implementation. In the ``Chain'' problem
 (Figure ~\ref{fig:chainloop} top), there are five states and two possible actions, with 0.2
-probability of slipping (performing the opposite action intended). The optimal
-policy is to explore to state 5, and stay there until slipping; the agent should try
-to get back to state 5 as much as possible.
+probability slipping (performing the opposite action intended). The optimal
+policy is to explore to state 5, and stay there until slipping.
 
 In the ``Loop" problem (Figure ~\ref{fig:chainloop} bottom), there are nine states and
 two possible actions, with no possibility of slipping. The optimal policy is to stay
-in the left loop and receive reward of 2 for every 5 actions. Because this problem has
-very little distinguishing the two actions in terms of short-term reward, effective
-estimation of $Q$ parameters is important to optimal behavior.
+in the left loop and receive reward of 2 for every 5 actions.
 
 In the ``Maze'' problem (Figure ~\ref{fig:maze}), the agent explores a maze to find
 flags. The agent can either move north, west, south, or east, and receives only its
-current position as its state (it has no physical sensors or observations of walls,
-besides the its new state). Each time the agent reaches the goal, it receives a reward
+current position as its state. Each time the agent reaches the goal, it receives a reward
 equal to the number of flags collected and is transported back to the beginning of the
 maze. All other state-action pairs receive zero reward. In the maze problem, we also
-have a probability of slipping (performing an action other than the one specified) of 0.2.
+have a probability of slipping of 0.2.
 
 \begin{figure}[!htb]
 \centering
@@ -157,18 +153,20 @@ find the optimal policy in the easy maze.}
 \end{figure}
 
 In all four environments, the Bayesian ML and sampling learners significantly outperform the naive
-$Q$ learner. In the chain environment, the Bayesian sampling learner finds the near-optimal policy and
+$Q$ learner. In the chain environment, Bayesian sampling finds the near-optimal policy and
 receives a total reward of 21458, compared with the 18550 from Bayesian ML and the 14548 from $Q$ learning.
-The difference between $Q$ and Bayesian models became obvious in the loop problem, in which both Bayesian
-sampling and ML achieved optimal performance of staying in the left loop and receiving 2 rewards for every
-5 steps, and the $Q$ learner remained in the right loop and received 1 reward for every 5 steps.
+The difference between $Q$ and Bayesian models is obvious in the loop problem, in which both Bayesian
+sampling and ML achieved optimal performance by receiving 2 rewards for every 5 steps, while the
+$Q$ received 1 reward for every 5 steps.
 
-In the easy maze problem, the Bayesian sampling learner achieved a near-optimal reward of 456, and both the
+In the easy maze, Bayesian sampling achieved a near-optimal reward of 456, and both the
 Bayesian ML and sampling learners drastically outperform the $Q$ learner. Because our environment provided
 so little feedback in the maze, the $Q$ learner was unable to find and exploit the optimal path. The Bayesian
-learners were able to deduce the walls without rewards and exploit the optimal path. In the hard maze problem,
-all learners struggled, but the Bayesian methods clearly outperform the $Q$ learner. As Figure ~\ref{fig:easyhardPerf}
-shows, however, the cumulative reward still sees occasional jumps, indicating it has not converged.
+learners were able to deduce the walls without rewards and exploit the optimal path. 
+
+In general the Bayesian sampling slightly outperformed Bayesian ML. We think this is because the added
+randomness from sampling our posteriors causes the agent explore and find the optimal policy quicker than
+just using the modes of the posteriors.
 
 \section{GPSARSA}
 In the GPSARSA framework, GPs are used to approximate the quality function $Q$. Similarly to GP regression,
@@ -243,14 +241,15 @@ our estimates of the GP mean and covariance can be rewritten as
 \end{align*}
 
 More details on how $\ktilde, \Htilde, \Qtilde, \Ctilde$ are calculated from the dictionary are in
-\cite{engels}.
+\cite{engel}.
 
 \subsection{Experiment and Results}
 We tested this framework on larger mazes and compared its performance with the Bayesian MDP framework
 in \cite{strens}. In this problem, states are defined in integer coordinates $(x, y)$, and actions can
 be one of 8 choices of neighbors. We note that this framework allows continuous state and action spaces, 
 but to reduce complexity of testing and implementation, we tested on the ``hard Maze'' in Figure
-~\ref{fig:maze} and the ``very hard Maze'' in Figure ~\ref{fig:easyhardPerf}.
+~\ref{fig:maze} and the ``very hard Maze'' in Figure ~\ref{fig:easyhardPerf}. In these problems, however,
+the agent had twice as many action choices.
 
 \begin{figure}[!htb]
 \centering
