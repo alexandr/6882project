@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  10 MAY 2016 19:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  10 MAY 2016 20:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -402,25 +402,25 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ]
-<chain.png, id=64, 348.30125pt x 110.4125pt>
+<chain.png, id=68, 348.30125pt x 110.4125pt>
 File: chain.png Graphic file (type png)
  <use chain.png>
 Package pdftex.def Info: chain.png used on input line 113.
 (pdftex.def)             Requested size: 187.89914pt x 59.56456pt.
 
-<loop.png, id=66, 303.1325pt x 160.6pt>
+<loop.png, id=70, 303.1325pt x 160.6pt>
 File: loop.png Graphic file (type png)
  <use loop.png>
 Package pdftex.def Info: loop.png used on input line 114.
 (pdftex.def)             Requested size: 187.89914pt x 99.55135pt.
 
-<easymaze.png, id=67, 405.515pt x 484.81125pt>
+<easymaze.png, id=71, 405.515pt x 484.81125pt>
 File: easymaze.png Graphic file (type png)
  <use easymaze.png>
 Package pdftex.def Info: easymaze.png used on input line 120.
 (pdftex.def)             Requested size: 84.55246pt x 101.081pt.
 
-<hardmaze.png, id=68, 482.80376pt x 483.8075pt>
+<hardmaze.png, id=72, 482.80376pt x 483.8075pt>
 File: hardmaze.png Graphic file (type png)
  <use hardmaze.png>
 Package pdftex.def Info: hardmaze.png used on input line 121.
@@ -429,25 +429,25 @@ Package pdftex.def Info: hardmaze.png used on input line 121.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-<chainPerf.png, id=71, 413.545pt x 282.05376pt>
+<chainPerf.png, id=75, 413.545pt x 282.05376pt>
 File: chainPerf.png Graphic file (type png)
  <use chainPerf.png>
 Package pdftex.def Info: chainPerf.png used on input line 144.
 (pdftex.def)             Requested size: 225.4804pt x 153.78725pt.
 
-<loopPerf.png, id=72, 407.5225pt x 282.05376pt>
+<loopPerf.png, id=76, 407.5225pt x 282.05376pt>
 File: loopPerf.png Graphic file (type png)
  <use loopPerf.png>
 Package pdftex.def Info: loopPerf.png used on input line 145.
 (pdftex.def)             Requested size: 225.4804pt x 156.05965pt.
 
-<smallMazePerf.png, id=73, 401.5pt x 282.05376pt>
+<smallMazePerf.png, id=77, 401.5pt x 282.05376pt>
 File: smallMazePerf.png Graphic file (type png)
  <use smallMazePerf.png>
 Package pdftex.def Info: smallMazePerf.png used on input line 152.
 (pdftex.def)             Requested size: 225.4804pt x 158.40521pt.
 
-<largeMazePerf.png, id=74, 394.47375pt x 282.05376pt>
+<largeMazePerf.png, id=78, 394.47375pt x 282.05376pt>
 File: largeMazePerf.png Graphic file (type png)
  <use largeMazePerf.png>
 Package pdftex.def Info: largeMazePerf.png used on input line 153.
@@ -456,60 +456,70 @@ Package pdftex.def Info: largeMazePerf.png used on input line 153.
 Underfull \vbox (badness 3118) has occurred while \output is active []
 
  [2 <./chain.png> <./loop.png> <./easymaze.png> <./hardmaze.png>]
-Overfull \hbox (0.64243pt too wide) detected at line 184
-[]\OML/cmm/m/it/10 R\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; x[]\OT1/cmr/m/n/10 )
- = \OML/cmm/m/it/10 Q\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) \OM
-S/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 ^^MQ\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]\OT
-1/cmr/m/n/10 ) + \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; x[]\O
-T1/cmr/m/n/10 )
+Overfull \hbox (0.64243pt too wide) detected at line 183
+\OML/cmm/m/it/10 R\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; x[]\OT1/cmr/m/n/10 ) =
+ \OML/cmm/m/it/10 Q\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) \OMS/
+cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 ^^MQ\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]\OT1/
+cmr/m/n/10 ) + \OML/cmm/m/it/10 N\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]; x[]\OT1
+/cmr/m/n/10 )
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 7415) has occurred while \output is active []
 
  [3 <./chainPerf.png> <./loopPerf.png> <./smallMazePerf.png> <./largeMazePerf.p
 ng>]
-<gptdCompare.png, id=99, 401.5pt x 282.05376pt>
+
+Package natbib Warning: Citation `engels' on page 4 undefined on input line 246
+.
+
+<gptdCompare.png, id=107, 401.5pt x 282.05376pt>
 File: gptdCompare.png Graphic file (type png)
  <use gptdCompare.png>
-Package pdftex.def Info: gptdCompare.png used on input line 213.
+Package pdftex.def Info: gptdCompare.png used on input line 257.
 (pdftex.def)             Requested size: 225.4804pt x 158.40521pt.
 
-<veryhardmaze.png, id=100, 482.80376pt x 484.81125pt>
+<veryhardmaze.png, id=108, 482.80376pt x 484.81125pt>
 File: veryhardmaze.png Graphic file (type png)
  <use veryhardmaze.png>
-Package pdftex.def Info: veryhardmaze.png used on input line 218.
+Package pdftex.def Info: veryhardmaze.png used on input line 262.
 (pdftex.def)             Requested size: 140.92793pt x 141.50896pt.
 
-<veryHardMazePerf.png, id=101, 404.51125pt x 282.05376pt>
+<veryHardMazePerf.png, id=109, 404.51125pt x 282.05376pt>
 File: veryHardMazePerf.png Graphic file (type png)
 
 <use veryHardMazePerf.png>
-Package pdftex.def Info: veryHardMazePerf.png used on input line 219.
+Package pdftex.def Info: veryHardMazePerf.png used on input line 263.
 (pdftex.def)             Requested size: 225.4804pt x 157.22168pt.
- (./writeup.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 231.
- [4 <./gptdCompare.png> <./veryhardmaze.png> <./veryHardMazePerf.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 231.
+ (./writeup.bbl [4 <./gptdCompare.png> <./veryhardmaze.png> <./veryHardMazePerf
+.png>])
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 273.
+[5
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 273.
  (./writeup.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 231.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 231.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 273.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 273.
 Package rerunfilecheck Info: File `writeup.out' has not changed.
-(rerunfilecheck)             Checksum: 7949522D22A25B6E9BD0B73F01DC1369;482.
+(rerunfilecheck)             Checksum: BEC0449EEFA7EF3D1B2684CE6EFF0077;541.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 231.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 273.
  ) 
 Here is how much of TeX's memory you used:
- 7033 strings out of 493089
- 100847 string characters out of 6134842
- 199929 words of memory out of 5000000
- 10395 multiletter control sequences out of 15000+600000
+ 7045 strings out of 493089
+ 100911 string characters out of 6134842
+ 201896 words of memory out of 5000000
+ 10405 multiletter control sequences out of 15000+600000
  12636 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,10n,32p,326b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,10n,32p,326b,417s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
@@ -526,10 +536,10 @@ e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
 015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/20
 15/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on writeup.pdf (4 pages, 299885 bytes).
+Output written on writeup.pdf (5 pages, 307402 bytes).
 PDF statistics:
- 174 PDF objects out of 1000 (max. 8388607)
- 128 compressed objects within 2 object streams
- 24 named destinations out of 1000 (max. 500000)
- 120 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 188 PDF objects out of 1000 (max. 8388607)
+ 141 compressed objects within 2 object streams
+ 26 named destinations out of 1000 (max. 500000)
+ 128 words of extra memory for PDF output out of 10000 (max. 10000000)
 

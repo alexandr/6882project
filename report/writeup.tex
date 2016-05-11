@@ -178,13 +178,11 @@ should reflect a similarity notion for the problem at hand.
 
 SARSA refers to the interaction model where $x$ (state-action) is evaluated, a reward is received,
 and the new $x'$ is evaluated. We can thus formulate the reward model as
-\begin{equation}
+\begin{equation*}
 R(x^{(t)}, x^{(t+1)}) = Q(x^{(t)}) - \gamma Q(x^{(t+1)}) + N(x^{(t)}, x^{(t+1)})
-\label{eq:gpsarsa_R}
-\end{equation}
+\end{equation*}
 where $N(x, x') = \Delta Q(x) - \gamma \Delta Q(x')$, $\Delta Q \sim \mathcal{N}(0,\Sigma)$,
-with $\Sigma(x, x') = \delta(x - x')\sigma^2(x)$. We can define for some time $t$, the random
-processes
+with $\Sigma(x, x') = \delta(x - x')\sigma^2(x)$. We can define, for some time $t$, the processes
 \begin{align*}
 R_t &= (R(x^{(1)},..., R(x^{(t)}))^T \\
 Q_t &= (Q(x^{(1)},..., Q(x^{(t)}))^T \\
@@ -196,17 +194,63 @@ and the vectors and matrices
 \mathbf{K_t}(x) &= (\mathbf{k_t}(x^{(1)}), ..., \mathbf{k_t}(x^{(t)}))^T\\
 \mathbf{\Sigma_t}(x) &= \textrm{diag}(\sigma_1^2,...,\sigma_t^2)^T.
 \end{align*}
-$$H^{(t)} =
+$$\mathbf{H_t} =
 \begin{bmatrix}
 1 & -\gamma & 0 & \ldots & 0 \\
 0 & 1 & -\gamma & \ldots & 0 \\
 \vdots & \vdots & \ddots & \vdots \\
 0 & 0 & \ldots & 1 & -\gamma
-\end{bmatrix}$$ and rewrite ~\ref{eq:gpsarsa_R} as
-
+\end{bmatrix}$$ and rewrite our reward model as
 \begin{equation}
-R^{(t-1)} = H^{(t)}Q^{(t)} + N^{(t-1)}
+R_{t-1} = H_t Q_t + N_{t-1}
 \end{equation}
+
+\newcommand{\Ht}{\mathbf{H_t}}
+\newcommand{\Qt}{\mathbf{Q_t}}
+\newcommand{\kt}{\mathbf{k_t}}
+\newcommand{\Kt}{\mathbf{K_t}}
+\newcommand{\St}{\mathbf{\Sigma_{t-1}}}
+
+Then the standard results on jointly Gaussian random variables gives the posterior on $Q$ given
+$R_{t-1}$ as
+\begin{equation}
+Q(x)|R_{t-1} \sim \mathcal{N}\big(v_t(x), p_t(x)\big),
+\end{equation}
+where
+\begin{align*}
+v_t(x) &= \kt(x)^T \Ht^T \Qt R_{t-1},\\
+p_t(x) &= k(x, x) - \kt(x)^T \Ht^T \Qt \Ht \kt(x),
+\end{align*}
+with $\Qt = (\Ht\Kt\Ht^T + \St)^{-1}$
+
+\subsection{Sparsification}
+To reduce the computation required to compute $v_t$ and $p_t$, \cite{engel} uses a sparsification
+method that represents $k(\cdot, \cdot)$ as the inner product of the Hilbert space $\mathcal{H}$, i.e.
+$k(x, x') = \langle \phi(x), \phi(x') \rangle_{\mathcal{H}}$. We can then reduce computation by maintaining
+a dictionary of $\{\tilde{\phi}(x_i)\}$, with which we can approximate $\phi(x_{(i)})$ by linear projection:
+$$\phi(x_i) = \sum_j a_{ij} \tilde{\phi}(x_j) + d$$
+Every $x$ where $d$ is greater than a precision threshold $\nu$ is then added to our dictionary, and
+our estimates of the GP mean and covariance can be rewritten as
+
+\newcommand{\ktilde}{\mathbf{\tilde{k}_t}}
+\newcommand{\Htilde}{\mathbf{\tilde{H}_t}}
+\newcommand{\Qtilde}{\mathbf{\tilde{Q}_t}}
+\newcommand{\Ctilde}{\mathbf{\tilde{C}_t}}
+
+\begin{align*}
+\tilde{v}_t(x) &= \ktilde(x)^T \Htilde^T \Qtilde R_{t-1},\\
+\tilde{p}_t(x) &= k(x, x) - \ktilde(x)^T \Ctilde \ktilde(x).
+\end{align*}
+
+More details on how $\ktilde, \Htilde, \Qtilde, \Ctilde$ are calculated from the dictionary are in
+\cite{engels}.
+
+\subsection{Experiment and Results}
+We tested this framework on larger mazes and compared its performance with the Bayesian MDP framework
+in \cite{strens}. In this problem, states are defined in integer coordinates $(x, y)$, and actions can
+be one of 8 choices of neighbors. We note that this framework allows continuous state and action spaces, 
+but to reduce complexity of testing and implementation, we tested on the ``hard Maze'' in Figure
+~\ref{fig:maze} and the ``very hard Maze'' in Figure ~\ref{fig:easyhardPerf}.
 
 \begin{figure}[!htb]
 \centering
@@ -219,8 +263,6 @@ R^{(t-1)} = H^{(t)}Q^{(t)} + N^{(t-1)}
 \includegraphics[width=0.48\textwidth]{veryHardMazePerf}
 \caption{\label{fig:easyhardPerf} Pictured above is the very hard ``Maze" environment. Pictured below is the performance of GPTD learner against the Bayesian learners on very hard ``Maze" environment.}
 \end{figure}
-
-\subsection{Formulation and Experiment}
 
 \section{Source Code}
 All of our source code is accessible at \url{https://github.com/alexandrwang/6882project}.
