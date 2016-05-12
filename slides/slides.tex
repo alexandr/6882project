@@ -132,4 +132,65 @@ $$\mu \sim \mathcal{N}\Big(\frac{k\bar{r} + c_0\mu_0}{k + c_0}, (k+c_0)\tau\Big)
 \end{figure}
 \end{frame}
 
+\begin{frame}{GPSARSA Framework}
+\begin{itemize}
+\item In the GPSARSA framework, GPs are used to approximate the quality function $Q$.
+
+\item Implement a kernel $k(x,x')$ for state-action pairs $x, x'$. It should reflect a similarity notion for the problem at hand.
+
+\item Put a GP prior over $Q\sim \mathcal{N}(0, k,(\cdot, \cdot))$ where $\mathbb{E}[Q(x)] = 0$ and $\mathbb{E}[Q(x)Q(x')] = k(x, x')$
+
+\item Why use a GP? Get uncertainty estimates for free, and can make decisions in a continuous action space.
+\item SARSA refers to model where you use the state, action, reward, and the new state and action to update your policies.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{More details on GPSARSA}
+
+We can formulate the reward model as
+\begin{equation*}
+R(x^{(t)}, x^{(t+1)}) = Q(x^{(t)}) - \gamma Q(x^{(t+1)}) + N(x^{(t)}, x^{(t+1)})
+\end{equation*}
+where $N(x, x') = \Delta Q(x) - \gamma \Delta Q(x')$, $\Delta Q \sim \mathcal{N}(0,\Sigma)$,
+with $\Sigma(x, x') = \delta(x - x')\sigma^2(x)$.
+\[ \]
+We'll omit the results here for brevity, but we can easily formulate the posterior of the quality function $Q$ given the past rewards as
+\begin{equation}
+Q(x)|R_{t-1} \sim \mathcal{N}\big(v_t(x), p_t(x)\big),
+\end{equation}
+where $v_t(x), p_t(x)$ are easily computable given our data. See our paper for more details!
+\end{frame}
+
+\begin{frame}{Sparsification}
+
+\begin{itemize}
+\item Re-evaluating the GP for every time step can be very costly. Oftentimes, you'll train your learner for hundreds of thousands of steps, but as we've seen, GPs are $O(n^3)$ computation time.
+\item Use \textbf{sparsification} method to reduce the number of data points we need to store.
+\item Represent $k(\cdot, \cdot)$ as the inner product of the Hilbert space $\mathcal{H}$, i.e.
+$k(x, x') = \langle \phi(x), \phi(x') \rangle_{\mathcal{H}}$
+\item Maintain
+a dictionary of $\{\tilde{\phi}(x_i)\}$, with which we can approximate $\phi(x_{(i)})$ by linear projection:
+$$\phi(x_i) = \sum_j a_{ij} \tilde{\phi}(x_j) + d$$
+\item Every $x$ we encounter where $d$ is greater than a precision threshold is then added to our dictionary.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Results on the hard Maze problem}
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.4\textwidth]{hardmaze}
+\includegraphics[width=0.5\textwidth]{gptdCompare}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on the very hard Maze problem}
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.4\textwidth]{veryhardmaze}
+\includegraphics[width=0.5\textwidth]{veryHardMazePerf}
+\end{figure}
+\end{frame}
+
 \end{document}
