@@ -1,7 +1,6 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  12 MAY 2016 09:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  12 MAY 2016 11:33
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **slides.tex
 (./slides.tex
@@ -1218,18 +1217,18 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for U+msa on input line 57.
+LaTeX Font Info:    Try loading font information for U+msa on input line 61.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 57.
+LaTeX Font Info:    Try loading font information for U+msb on input line 61.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 57.
+line 61.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
@@ -1240,61 +1239,61 @@ thkerncmss.
 
 ] [4
 
-] <chain.png, id=149, 348.30125pt x 110.4125pt>
+] <chain.png, id=153, 348.30125pt x 110.4125pt>
 File: chain.png Graphic file (type png)
  <use chain.png>
-Package pdftex.def Info: chain.png used on input line 117.
+Package pdftex.def Info: chain.png used on input line 127.
 (pdftex.def)             Requested size: 153.64493pt x 48.70631pt.
 
-<loop.png, id=151, 303.1325pt x 160.6pt>
+<loop.png, id=155, 303.1325pt x 160.6pt>
 File: loop.png Graphic file (type png)
  <use loop.png>
-Package pdftex.def Info: loop.png used on input line 117.
+Package pdftex.def Info: loop.png used on input line 127.
 (pdftex.def)             Requested size: 153.64493pt x 81.40254pt.
 
-<easymaze.png, id=152, 405.515pt x 484.81125pt>
+<easymaze.png, id=156, 405.515pt x 484.81125pt>
 File: easymaze.png Graphic file (type png)
  <use easymaze.png>
-Package pdftex.def Info: easymaze.png used on input line 117.
+Package pdftex.def Info: easymaze.png used on input line 127.
 (pdftex.def)             Requested size: 73.7506pt x 88.17216pt.
 
-<hardmaze.png, id=153, 482.80376pt x 483.8075pt>
+<hardmaze.png, id=157, 482.80376pt x 483.8075pt>
 File: hardmaze.png Graphic file (type png)
  <use hardmaze.png>
-Package pdftex.def Info: hardmaze.png used on input line 117.
+Package pdftex.def Info: hardmaze.png used on input line 127.
 (pdftex.def)             Requested size: 92.1879pt x 92.3747pt.
 
-Overfull \vbox (3.23483pt too high) detected at line 117
+Overfull \vbox (32.56401pt too high) detected at line 127
  []
 
 [5
 
  <./chain.png> <./loop.png> <./easymaze.png> <./hardmaze.png>]
-<chainPerf.png, id=184, 413.545pt x 282.05376pt>
+<chainPerf.png, id=188, 413.545pt x 282.05376pt>
 File: chainPerf.png Graphic file (type png)
  <use chainPerf.png>
-Package pdftex.def Info: chainPerf.png used on input line 125.
+Package pdftex.def Info: chainPerf.png used on input line 135.
 (pdftex.def)             Requested size: 153.64493pt x 104.79292pt.
 
-<loopPerf.png, id=185, 407.5225pt x 282.05376pt>
+<loopPerf.png, id=189, 407.5225pt x 282.05376pt>
 File: loopPerf.png Graphic file (type png)
  <use loopPerf.png>
-Package pdftex.def Info: loopPerf.png used on input line 125.
+Package pdftex.def Info: loopPerf.png used on input line 135.
 (pdftex.def)             Requested size: 153.64493pt x 106.33798pt.
  [6
 
- <./chainPerf.png> <./loopPerf.png>] <smallMazePerf.png, id=214, 401.5pt x 282.
+ <./chainPerf.png> <./loopPerf.png>] <smallMazePerf.png, id=218, 401.5pt x 282.
 05376pt>
 File: smallMazePerf.png Graphic file (type png)
 
 <use smallMazePerf.png>
-Package pdftex.def Info: smallMazePerf.png used on input line 133.
+Package pdftex.def Info: smallMazePerf.png used on input line 143.
 (pdftex.def)             Requested size: 153.64493pt x 107.939pt.
- <largeMazePerf.png, id=215, 394.47375pt x 282.05376pt>
+ <largeMazePerf.png, id=219, 394.47375pt x 282.05376pt>
 File: largeMazePerf.png Graphic file (type png)
 
 <use largeMazePerf.png>
-Package pdftex.def Info: largeMazePerf.png used on input line 133.
+Package pdftex.def Info: largeMazePerf.png used on input line 143.
 (pdftex.def)             Requested size: 153.64493pt x 109.85849pt.
  [7
 
@@ -1308,32 +1307,36 @@ Package pdftex.def Info: largeMazePerf.png used on input line 133.
 ]
 File: hardmaze.png Graphic file (type png)
  <use hardmaze.png>
-Package pdftex.def Info: hardmaze.png used on input line 186.
+Package pdftex.def Info: hardmaze.png used on input line 196.
 (pdftex.def)             Requested size: 122.91406pt x 123.16626pt.
 
-<gptdCompare.png, id=324, 401.5pt x 282.05376pt>
+<gptdCompare.png, id=332, 401.5pt x 282.05376pt>
 File: gptdCompare.png Graphic file (type png)
  <use gptdCompare.png>
-Package pdftex.def Info: gptdCompare.png used on input line 186.
+Package pdftex.def Info: gptdCompare.png used on input line 196.
 (pdftex.def)             Requested size: 153.64493pt x 107.939pt.
  [11
 
- <./gptdCompare.png>] <veryhardmaze.png, id=351, 482.80376pt x 484.81125pt>
+ <./gptdCompare.png>] <veryhardmaze.png, id=360, 482.80376pt x 484.81125pt>
 File: veryhardmaze.png Graphic file (type png)
 
 <use veryhardmaze.png>
-Package pdftex.def Info: veryhardmaze.png used on input line 194.
+Package pdftex.def Info: veryhardmaze.png used on input line 204.
 (pdftex.def)             Requested size: 122.91406pt x 123.4218pt.
 
-<veryHardMazePerf.png, id=352, 404.51125pt x 282.05376pt>
+<veryHardMazePerf.png, id=361, 404.51125pt x 282.05376pt>
 File: veryHardMazePerf.png Graphic file (type png)
 
 <use veryHardMazePerf.png>
-Package pdftex.def Info: veryHardMazePerf.png used on input line 194.
+Package pdftex.def Info: veryHardMazePerf.png used on input line 204.
 (pdftex.def)             Requested size: 153.64493pt x 107.13419pt.
  [12
 
  <./veryhardmaze.png> <./veryHardMazePerf.png>]
+(./slides.bbl) [13
+
+ </usr/local/texlive/2015/texmf-dist/tex/latex/beamer/art/beamericonarticle.pdf
+>]
 \tf@nav=\write6
 \openout6 = `slides.nav'.
 
@@ -1343,12 +1346,11 @@ Package pdftex.def Info: veryHardMazePerf.png used on input line 194.
 \tf@snm=\write8
 \openout8 = `slides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 196.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 196.
-
-(./slides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 196.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 196.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 211.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 211.
+ (./slides.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 211.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 211.
 Package rerunfilecheck Info: File `slides.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1356,16 +1358,16 @@ Package rerunfilecheck Info: File `slides.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 196.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 211.
  ) 
 Here is how much of TeX's memory you used:
- 25510 strings out of 493089
- 495117 string characters out of 6134842
- 657236 words of memory out of 5000000
- 28486 multiletter control sequences out of 15000+600000
- 16858 words of font info for 61 fonts, out of 8000000 for 9000
+ 25563 strings out of 493089
+ 496749 string characters out of 6134842
+ 658311 words of memory out of 5000000
+ 28531 multiletter control sequences out of 15000+600000
+ 17214 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,16n,65p,10414b,563s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,16n,65p,10414b,570s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
@@ -1380,10 +1382,10 @@ local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
 ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/loc
 al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on slides.pdf (12 pages, 276796 bytes).
+Output written on slides.pdf (13 pages, 283485 bytes).
 PDF statistics:
- 433 PDF objects out of 1000 (max. 8388607)
- 365 compressed objects within 4 object streams
- 25 named destinations out of 1000 (max. 500000)
+ 478 PDF objects out of 1000 (max. 8388607)
+ 405 compressed objects within 5 object streams
+ 29 named destinations out of 1000 (max. 500000)
  138 words of extra memory for PDF output out of 10000 (max. 10000000)
 

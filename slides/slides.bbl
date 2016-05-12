@@ -1,0 +1,13 @@
+\begin{thebibliography}{}
+
+\bibitem[Engel et~al., 2005]{engel}
+Engel, Y., Mannor, S., and Meir, R. (2005).
+\newblock Reinforcement learning with gaussian processes.
+\newblock In {\em International Conference on Machine Learning}.
+
+\bibitem[Strens, 2000]{strens}
+Strens, M. (2000).
+\newblock A bayesian framework for reinforcement learning.
+\newblock In {\em International Conference on Machine Learning}.
+
+\end{thebibliography}
