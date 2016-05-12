@@ -1,0 +1,56 @@
+\documentclass{beamer}
+
+\usepackage{graphicx,float,caption}
+\usepackage{subcaption}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{lipsum}
+\usepackage{multimedia}
+\usepackage{amsmath}
+\usepackage[english]{babel}
+
+\setbeamertemplate{footline}[frame number]
+
+\usetheme{Warsaw}
+
+\defbeamertemplate*{footline}{shadow theme}
+{%
+\leavevmode%
+  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertframenumber\,/\,\inserttotalframenumber\hfill\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle%
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{caption}[numbered]
+
+\title { Bayesian Reinforcement Learning Methods }
+\subtitle { Using Bayesian MDPs and GPTD Methods }
+
+\author[Vickie Ye and Alexandr Wang]
+{ Vickie~Ye and Alexandr~Wang}
+
+\date[Spring 2016]
+{ May 12, 2016}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{NMR measures the magnetic moment of nuclei}
+\begin{minipage}{0.5\textwidth}
+\begin{itemize}
+\item A nucleus with magnetic moment $\mathbf{\mu} = \gamma \mathbf{I}$ in a magnetic field $\mathbf{B} = B_0 \hat{z} + B_1\sin\omega t \hat{x}$ precesses about the $z$ axis with Larmor frequency 
+\begin{equation}
+f = \gamma B_0.
+\end{equation}
+\item If we apply an RF pulse for time $\frac{\pi}{\gamma B_1}$, we can rotate the moment by $90^\circ$ into the $xy$ plane and observe the precessing magnetization. 
+\end{itemize}
+\end{minipage}%
+\end{frame}
+
+\end{document}
